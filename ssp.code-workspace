@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "python.analysis.useLibraryCodeForTypes": true,
+        "python.analysis.completeFunctionParens": true,
+        "python.analysis.importFormat": "relative",
+        "python.analysis.inlayHints.functionReturnTypes": true,
+        "python.analysis.typeCheckingMode": "basic",
+        "python.analysis.diagnosticMode": "workspace",
+        "python.analysis.autoSearchPaths": true,
+        "terminal.integrated.defaultProfile.windows": "Command Prompt",
+        "editor.accessibilitySupport": "off",
+        "notebook.output.textLineLimit": 10,
+        "[python]": {
+            "editor.formatOnType": true,
+            "editor.inlineSuggest.enabled": true,
+        },
+        "mypy.runUsingActiveInterpreter": true,
+        "mypy.enabled": true,
+    }
+}

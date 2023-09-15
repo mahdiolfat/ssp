@@ -6,4 +6,24 @@ Direct impelementation of statistical digital signal processing algorithms from 
 
 ## For the Developer
 
+### The Environment
 
+### IDE
+
+### Testing
+
+### Contribution
+
+- Examples
+- Ready-to-Implement Algorithms
+- New Algorithms
+
+## Pour Moi
+
+### TODO
+
+- VS code add-ons
+- Python package/module
+- Release
+- CT/CR
+- use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
