@@ -6,4 +6,20 @@ Direct impelementation of statistical digital signal processing algorithms from 
 
 ## For the Developer
 
+### The Environment
 
+### IDE
+
+### Testing
+
+### Contribution
+
+- Examples
+- Ready-to-Implement Algorithms
+- New Algorithms
+
+## Pour Moi
+
+### TODO
+
+- VS code add-ons
