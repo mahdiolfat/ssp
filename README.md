@@ -23,3 +23,7 @@ Direct impelementation of statistical digital signal processing algorithms from 
 ### TODO
 
 - VS code add-ons
+- Python package/module
+- Release
+- CT/CR
+- use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
