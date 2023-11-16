@@ -1,6 +1,6 @@
 name: Python Continuous Integration
 
-on: [workflow_call]
+on: [push]
 
 jobs:
     build:
