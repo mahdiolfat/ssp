@@ -22,3 +22,7 @@ jobs:
   tests:
     runs-on: ubuntu-latest
     needs: setup-environment
+    steps:
+      - name: lint
+        run: |
+          pytest
