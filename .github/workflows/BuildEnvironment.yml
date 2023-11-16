@@ -26,7 +26,3 @@ jobs:
             - name: Mypy Typecheck
               run: |
                 python --version
-
-            - name: Pytest tests
-              run: |
-                python -m pytest

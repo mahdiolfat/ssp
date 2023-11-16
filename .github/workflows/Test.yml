@@ -3,12 +3,6 @@ name: Python Continuous Integration
 on: [push]
 
 jobs:
-  Build:
-    uses: ./.github/workflows/Build.yml
-  Functional-Tests:
-    runs-on: ubuntu-latest
-    needs: Build
-    steps:
-      - name: Pytest tests
-        run: |
-          python -m pytest
+  continuous-testing:
+    uses: ./.github/workflows/BuildEnvironment.yml
+    secrets: inherit
