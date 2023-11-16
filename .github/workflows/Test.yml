@@ -1,8 +1,8 @@
 name: Python Continuous Integration
 
-on: [push]
+on: [workflow_call]
 
 jobs:
   continuous-testing:
-    uses: ./.github/workflows/BuildEnvironment.yml
+    uses: ./.github/workflows/Analyze.yml
     secrets: inherit
