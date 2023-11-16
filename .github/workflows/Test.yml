@@ -1,8 +1,0 @@
-name: Python Continuous Integration
-
-on: [workflow_call]
-
-jobs:
-  continuous-testing:
-    uses: ./.github/workflows/Analyze.yml
-    secrets: inherit

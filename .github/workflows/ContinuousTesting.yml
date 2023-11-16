@@ -23,6 +23,6 @@ jobs:
               run: |
                 python --version
 
-            - name: Mypy Typecheck
+            - name: Test
               run: |
-                python --version
+                pytest
