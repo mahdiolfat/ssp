@@ -1,5 +1,8 @@
 import numpy as np
 
+from .state import convm
+
+
 def lms(x, d, mu, nord, a0=None):
     '''LMS Adaptive Filter
 
