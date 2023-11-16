@@ -1,4 +1,5 @@
 import numpy as np
+import scipy as sp
 
 def fcov(x, p):
     '''
