@@ -2,18 +2,6 @@
 
 Direct impelementation of statistical digital signal processing algorithms from the book by the same name by Professor Monson H. Hayes.
 
-## For the Studious
-
-## For the Developer
-
-### The Environment
-
-### IDE
-
-### Testing
-
-### Contribution
-
 - Examples
 - Ready-to-Implement Algorithms
 - New Algorithms
@@ -22,8 +10,13 @@ Direct impelementation of statistical digital signal processing algorithms from 
 
 ### TODO
 
+- Finalize test cases for all codes
+- pytest-cov?
+- python documentation generator
+- linting workflow
+- pass linting
+- mypy static type checking
+- Release package scripts
+- stub files?
 - VS code add-ons
-- Python package/module
-- Release
-- CT/CR
 - use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
