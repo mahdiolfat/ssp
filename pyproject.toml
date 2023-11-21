@@ -6,6 +6,7 @@ build-backend = "hatchling.build"
 name = "pyssp"
 version = "0.0.1"
 readme = "README.md"
+license = "LICENSE.txt"
 
 [tool.pytest.ini_options]
 pythonpath = "."
