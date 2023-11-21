@@ -1,6 +1,8 @@
 numpy
 scipy
 matplotlib
-pytest
 
+pylama[all]
+pytest
+pytest-cov
 mypy
