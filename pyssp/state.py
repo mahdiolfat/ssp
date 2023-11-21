@@ -5,10 +5,10 @@ import numpy as np
 
 
 def convm(x, p):
-    """Convolution Matrix
+    """Convolution Matrix.
+
     (N + p - 1) by p non-symmetric Toeplitz matrix
     """
-
     if p < 1:
         raise ValueError(f"{p=} must be greater or equal to 1.")
 
@@ -24,10 +24,10 @@ def convm(x, p):
 
 
 def covar(x, p):
-    '''Covariance Matrix
-    p x p hermitian toeplitz matrix of sample covariances
-    '''
+    """Covariance Matrix.
 
+    p x p hermitian toeplitz matrix of sample covariances
+    """
     m = len(x)
     # remove the mean
     x0 = x.copy() - np.mean(x)
@@ -71,8 +71,8 @@ def eywe():
 
 
 def normaldeterministic():
-    """Normal Determenistic Systems of Equations"""
+    """Normal Determenistic Systems of Equations."""
 
 
 def wienerhopf():
-    """Wiener-Hopf Systems of Equations"""
+    """Wiener-Hopf Systems of Equations."""

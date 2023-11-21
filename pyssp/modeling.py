@@ -1,4 +1,4 @@
-"""Chapter 4 modeling algorithm implementations"""
+"""Chapter 4 modeling algorithm implementations."""
 
 import numpy as np
 import scipy as sp
@@ -8,11 +8,11 @@ from .state import convm
 
 
 def pade(x, p, q):
-    '''
-    Reference Page 138, Table 4.1
+    """Reference Page 138, Table 4.1.
+
     The Pade approximation models a signal as the unis sample response
     of linear shift invariant system have p poles and q zeros.
-    '''
+    """
     if p + q > len(x):
         raise ValueError(f"Model order {p + q} is too large.")
 
@@ -30,14 +30,13 @@ def pade(x, p, q):
 
 
 def prony(x, p, q):
-    '''
-    Least square minimization of poles to get denominator coefficients.
+    """Least square minimization of poles to get denominator coefficients.
+
     Solves directly (Pade method) to get numerator coefficients.
     Also calculates minimum error achieved.
 
     Condition to energy_match is on page 575
-    '''
-
+    """
     if p + q > len(x):
         raise ValueError(f"Model order {p + q} is too large.")
 
@@ -77,7 +76,6 @@ def prony(x, p, q):
 
 def shanks(x, p, q):
     """Shank's method."""
-
     N = len(x)
     if p + q >= N:
         raise ValueError(f"Model order {p + q} is too large.")
@@ -106,8 +104,7 @@ def shanks(x, p, q):
 
 
 def spike(g, n0, n):
-    '''Leaset Squares Inverse Filter'''
-
+    """Leaset Squares Inverse Filter."""
     g = g.reshape(-1, 1)
     m = len(g)
 
@@ -135,8 +132,7 @@ def ipf():
 
 
 def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
-    """The auto-correlation method"""
-
+    """The auto-correlation method."""
     x0 = x.copy().ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):
@@ -155,9 +151,7 @@ def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
 
 
 def covm(x, p):
-    '''
-    Solve the complete Prony normal equations.
-    '''
+    """Solve the complete Prony normal equations."""
     x0 = x.copy().ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):
@@ -176,6 +170,7 @@ def covm(x, p):
 
 
 def durbin(x, p, q):
+    """The durbin method."""
     x0 = x.copy().ravel().reshape(-1, 1)
     # N = len(x0)
     if p >= len(x0):

@@ -8,8 +8,9 @@ from .modeling import acm
 
 
 def overlay():
-    """Calculates the periodogram using an ensemble of realizations.
+    """Periodogram overlays: using an ensemble of realizations.
 
+    Summary of this function.
     Arguements: (N, omega, A, sigma, num)
     """
 
@@ -36,14 +37,13 @@ def periodogram(x, n1=0, n2=None, nfft=1024):
 
 
 def mper(x, n1, n2, win=None):
-    '''Modified Periodogram: non-paramteric spectrum estimator.
+    """Estimates non-paramteric spectrum estimator.
 
     Same as the periodogram but the signal is windowed first.
     Spectral smoothing via time-domain windowing.
 
     Reference Page 410, Figure 8.11
-    '''
-
+    """
     _x = np.array(x)
     N = n2 - n1
 
@@ -57,12 +57,11 @@ def mper(x, n1, n2, win=None):
 
 
 def bart(x, nsect):
-    '''Bartlett's method: non-paramteric spectrum estimation
-    Reference Page 414, Figure 8.13
+    """Bartlett's method non-paramteric spectrum estimation.
 
-    Averages periodograms of non-overlapping sections
-    '''
-
+    Reference Page 414, Figure 8.13.
+    Averages periodograms of non-overlapping sections.
+    """
     _x = np.array(x)
     L = len(x) // nsect
     Px = np.zeros(1)
@@ -76,11 +75,10 @@ def bart(x, nsect):
 
 
 def welch(x, L, over, win=None):
-    '''Welch's method: non-paramteric spectrum estimator.
+    """Welch's method: non-paramteric spectrum estimator.
 
     Reference Page 418, Figure 8.16
-    '''
-
+    """
     _x = np.array(x)
     if over >= 1 or over < 0:
         raise ValueError(f"Overlap {over=} is invalid")
@@ -98,10 +96,10 @@ def welch(x, L, over, win=None):
 
 
 def per_smooth(x, M, n1=0, n2=None, win=None):
-    '''Blackman-Tukey Spectrum Estimator: non-parametric estimation
+    """Blackman-Tukey Spectrum Estimator: non-parametric estimation.
 
     Page 421, Figure 8.18
-    '''
+    """
     _x = np.array(x)
 
     if n2 is None:
@@ -122,11 +120,10 @@ def per_smooth(x, M, n1=0, n2=None, win=None):
 
 
 def minvar(x, p):
-    '''Minimum Variance spectrum estimator: parametric estimation
+    """Minimum Variance spectrum estimator: parametric estimation.
 
     Page 430, Figure 8.19
-    '''
-
+    """
     _x = np.array(x)
     R = covar(x, p)
     d, v = np.linalg.eig(R)
@@ -139,11 +136,10 @@ def minvar(x, p):
 
 
 def mem(x, p):
-    '''Maximum Entropy spectrum estimator: parametric estimation
+    """Maximum Entropy spectrum estimator: parametric estimation.
 
     Page 437, Figure 8.19
-    '''
-
+    """
     a, e = acm(x, p)
     nfft = max(len(a) + 1, 1024)
     Px = 20 * (np.log10(e) - np.log10(np.abs(np.fft.fft(a, nfft))))
@@ -152,7 +148,7 @@ def mem(x, p):
 
 
 def modal():
-    """Mode-based spectrum estimator: parametric estimation
+    """Mode-based spectrum estimator: parametric estimation.
 
     Page 440.
 
@@ -161,13 +157,12 @@ def modal():
 
 
 def phd(x, p):
-    '''Pisarenko Harmonic Decomposition frequency estimator
+    """Pisarenko Harmonic Decomposition frequency estimator.
 
     A noise subspace method.
 
     Page 461, Figure 8.33
-    '''
-
+    """
     _x = np.array(x)
     R = covar(_x, p + 1)
     d, v = np.linalg.eig(R)
@@ -180,13 +175,12 @@ def phd(x, p):
 
 
 def music(x, p, M):
-    '''MUSIC, Frequency estimator
+    """MUSIC, Frequency estimator.
 
     A noise subspace method.
 
     Page 430, Figure 8.19
-    '''
-
+    """
     _x = np.array(x)
     if M < p + 1 or len(x) < M:
         raise ValueError("Size of signal covariance matrix is inappropriate.")
@@ -208,13 +202,12 @@ def music(x, p, M):
 
 
 def ev(x, p, M):
-    '''Eigenvector spectrum estimator: noise subspace method, parametric
+    """Eigenvector spectrum estimator: noise subspace method, parametric.
 
     A noise subspace method.
 
     Reference Page 466, Figure 8.35
-    '''
-
+    """
     if M < p + 1:
         raise ValueError('Specified signal size is too small')
 
@@ -235,11 +228,11 @@ def ev(x, p, M):
 
 
 def min_norm(x, p, M):
-    '''Minimum Norm spectrum estimator: noise subspace method, parametric
-    Frequency estimator
+    """Minimum Norm spectrum estimator: noise subspace method, parametric.
 
+    Frequency estimator.
     Reference Page 466, Figure 8.35
-    '''
+    """
     _x = np.array(x)
     if M < p + 1:
         raise ValueError('Specified signal size is too small')
@@ -261,13 +254,13 @@ def min_norm(x, p, M):
 
 
 def bt_pc(x, p, M):
-    '''Blackman-Tukey Principle-Component Frequeny Estimator
+    """Blackman-Tukey Principle-Component Frequeny Estimator.
 
     program for estimating the frequencies of pcomplex exponentials in white noise using
     a principal components analysis with the Blackman-Tukey method.
 
     Refence Page 471, Figure 8.38
-    '''
+    """
     _x = np.array(x)
     if M < p + 1:
         raise ValueError('Specified signal size is too small')
@@ -288,14 +281,14 @@ def bt_pc(x, p, M):
 
 
 def mv_pc():
-    """Minimum Variance, Principle Component"
+    """Minimum Variance, Principle Component.
 
     Arguements: (x, p, M)
     """
 
 
 def ar_pc():
-    """Autoregressive, Principle Component"
+    """Autoregressive, Principle Component.
 
     Arguements: (x, p, M)
     """

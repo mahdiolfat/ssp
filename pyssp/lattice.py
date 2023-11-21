@@ -6,13 +6,11 @@ import scipy as sp
 
 
 def fcov(x, p):
-    '''
-    Figure 6.15, Page 310.
+    """Figure 6.15, Page 310.
 
     Using the forward covariance method the reflection co-efficients of the lattice filter
     are found by sequentially minimizing the sum of the squares of the forward prediction error.
-    '''
-
+    """
     if p >= len(x):
         raise ValueError("Model order must be less than length of signal")
 
@@ -43,12 +41,10 @@ def fcov(x, p):
 
 
 def burg(x, p):
-    '''
-    Sequentially minimizes the sum of the forward and backward covariance errors.
+    """Sequentially minimizes the sum of the forward and backward covariance errors.
 
     Guaranteed to be stable. All reflection coefficients will be <|1|
-    '''
-
+    """
     if p > len(x):
         raise ValueError("Model order must be less than length of signal")
 
@@ -79,18 +75,17 @@ def burg(x, p):
 
 
 def bcov():
-    '''
-    Sequentially minimizes the backward covariance error.
+    """Sequentially minimizes the backward covariance error.
 
     Arguements: (x, p)
-    '''
+    """
 
 
 def mcov(x, p):
-    '''
-    Modified covariance method. Unlike the forward/backward algorithms,
-    it *does not* minimize an error term sequentially.
-    '''
+    """Modified covariance method. Unlike the forward/backward algorithms.
+
+    It *does not* minimize an error term sequentially.
+    """
     _x = np.array(x).reshape(-1, 1)
     N = len(x)
 

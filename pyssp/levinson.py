@@ -1,14 +1,13 @@
-"Chapter 5 algorithm implementations."
+"""Chapter 5 algorithm implementations."""
 
 import numpy as np
 
 
 def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
-    '''
-    The Levison-Durbin recursion.
-    "Recursive mapping from a set of autocorrelations to a set of model parameters."
-    '''
+    """Recursively map a set of autocorrelations to a set of model parameters.
 
+    The Levison-Durbin recursion.
+    """
     a = np.ones((1, 1))
     epsilon = r[0]
     p = len(r) - 1
@@ -25,15 +24,16 @@ def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
 
 
 def gtoa(gamma):
-    '''
-    Reference Page 233, Table 5.2, Figure 5.6
-    "Step up recursion defines how model parameters for a jth-order
+    """Recursively map parameters to reflection coeffs.
+
+    Reference Page 233, Table 5.2, Figure 5.6.
+
+    Step up recursion defines how model parameters for a jth-order
     filter may be updated (stepped-up) to a (j + 1)st-order filter given reflection
-    coefficients gamma."
+    coefficients gamma.
 
     Cumulant generating function in statistics.
-    '''
-
+    """
     a = np.ones((1, 1))
     p = len(gamma)
     for j in range(1, p):
@@ -46,7 +46,9 @@ def gtoa(gamma):
 
 
 def atog(a):
-    '''The step-down recursion.
+    """Recursively map from reflection coeffs to filter coeffs.
+
+    The step-down recursion.
 
     Used within the framework of the "Shur-Cohn stability test".
     i.e., "the roots of the polynomial will lie inside the unit circle if and only
@@ -54,8 +56,7 @@ def atog(a):
     i.e., the all-pole model/filter is minimum phase and guaranteed to be stable.
 
     Mapping from reflection coefficients to filter coefficients.
-    '''
-
+    """
     _a = np.array(a).reshape(-1, 1)
     p = len(_a)
     # drop a(0) and normalized in case it is not unity.
@@ -80,10 +81,10 @@ def atog(a):
 
 
 def gtor(gamma, epsilon=None):
-    '''
-    Finds the autocorrelation sequence from the reflection coefficients and the modeling error.
+    """Find the autocorrelation sequence from the reflection coefficients and the modeling error.
+
     Page 241, Figure 5.9.
-    '''
+    """
     p = len(gamma)
     aa = np.array([[gamma[0]]]).reshape(-1, 1)
     r = np.array(([1, -gamma[0]])).reshape(1, -1)
@@ -109,10 +110,7 @@ def gtor(gamma, epsilon=None):
 
 
 def ator(a, b):
-    '''
-    Page 241, Figure 5.9.
-    '''
-
+    """Page 241, Figure 5.9."""
     gamma = atog(a)
     r = gtor(gamma.ravel())
     r = r * np.sqrt(b) / np.prod(1 - np.abs(gamma)**2)
@@ -121,24 +119,22 @@ def ator(a, b):
 
 
 def rtog(r):
-    '''
-    The Shur Recursion: Table 5.5
+    """Recurse from the model params to filter coeffs.
+
+    The Shur Recursion: Table 5.5.
 
     Implementation based on Figure A.3, page 581
-
-    '''
-
+    """
     a, _ = rtoa(r)
     gamma = atog(a)
     return gamma
 
 
 def glev(r, b):
-    '''General Levinson Recursion, solves any Hermitian Toeplitz matrix.
+    """General Levinson Recursion, solves any Hermitian Toeplitz matrix.
 
     Can solve the Wiener-Hopf system of equations for Optimal MSE Filter design.
-    '''
-
+    """
     _r = np.array(r).reshape(-1, 1)
     # _b = np.array([b]).reshape(-1, 1)
     p = len(b)

@@ -6,11 +6,11 @@ from .state import convm
 
 
 def lms(x, d, mu, nord, a0=None):
-    '''LMS Adaptive Filter
+    """LMS Adaptive Filter.
 
     Refernce Page 506, Figure 9.7
     Suffers from gradient noise amplification
-    '''
+    """
     X = convm(x, nord)
     M, N = X.shape
 
@@ -32,11 +32,10 @@ def lms(x, d, mu, nord, a0=None):
 
 
 def nlms(x, d, beta, nord, a0):
-    '''Normalized LMS Adaptive Filter
+    """Normalized LMS Adaptive Filter.
 
     Refernce Page 515, Figure 9.12
-    '''
-
+    """
     delta = 0.0001
     X = convm(x, nord)
     M, N = X.shape
@@ -62,14 +61,13 @@ def nlms(x, d, beta, nord, a0):
 
 
 def rls(x, d, nord, lamda=1, delta=0.001):
-    '''Recursive Least Squares
+    """Recursive Least Squares.
 
     Reference 545, Table 9.6
 
     For special case of lambda == 1, this is known as growing window RLS algorithm,
     For all other values of lambda <1 and >0, this is the exponentially weighted RLS algorithm.
-    '''
-
+    """
     X = convm(x, nord)
     M, N = X.shape
     P = np.eye(N) / delta

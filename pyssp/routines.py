@@ -1,4 +1,4 @@
-"""Some helper routines"""
+"""Some helper routines."""
 
 
 def back_substitution():
