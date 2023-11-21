@@ -3,7 +3,6 @@
 import numpy as np
 import scipy as sp
 
-
 from .state import convm
 
 
