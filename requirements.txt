@@ -4,4 +4,5 @@ matplotlib
 
 pylama[all]
 pytest
+pytest-cov
 mypy

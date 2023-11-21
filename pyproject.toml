@@ -11,6 +11,7 @@ readme = "README.md"
 pythonpath = "."
 addopts = [
     "--import-mode=importlib",
+    "--cov=pyssp"
 ]
 
 [tool.pylama]
