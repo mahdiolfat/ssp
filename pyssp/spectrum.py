@@ -4,6 +4,7 @@
 import numpy as np
 
 from state import covar
+from modeling import acm
 
 
 def overlay(N, omega, A, sigma, num):
@@ -13,7 +14,7 @@ def overlay(N, omega, A, sigma, num):
 
 def periodogram(x, n1=0, n2=None, nfft=1024):
     """Periodogram, non-paramteric spectrum estimator.
-    
+
     Ergodic in signal length converging to the true power spectrum.
 
     Reference Page 394, Figure 8.1
@@ -27,7 +28,7 @@ def periodogram(x, n1=0, n2=None, nfft=1024):
     Px = np.abs(np.fft.fft(_x[n1:n2], nfft)) ** 2 / (n2 - n1)
 
     # DC carries no information
-    Px[0] =Px[1]
+    Px[0] = Px[1]
 
     return Px
 
@@ -141,7 +142,7 @@ def mem(x, p):
 
     a, e = acm(x, p)
     nfft = max(len(a) + 1, 1024)
-    Px = 20 * (np.log10(e) - np.log10(np.abs(np.fft.fft(a, 1024))))
+    Px = 20 * (np.log10(e) - np.log10(np.abs(np.fft.fft(a, nfft))))
 
     return Px
 
@@ -162,7 +163,7 @@ def phd(x, p):
     '''
 
     _x = np.array(x)
-    R = covar(x, p + 1)
+    R = covar(_x, p + 1)
     d, v = np.linalg.eig(R)
     ddiag = np.diag(d)
     index = np.argmin(ddiag)
@@ -182,18 +183,18 @@ def music(x, p, M):
 
     _x = np.array(x)
     if M < p + 1 or len(x) < M:
-        raise ValueError(f"Size of signal covariance matrix is inappropriate.")
+        raise ValueError("Size of signal covariance matrix is inappropriate.")
 
     R = covar(x, M)
     d, v = np.linalg.eig(R)
     ddiag = np.diag(d)
     i = np.argsort(ddiag)
-    y = ddiag[i]
+    # y = ddiag[i]
     Px = np.zeros(1)
 
     nfft = max(len(_x) + 1, 1024)
-    for j in range(M-p):
-        Px = Px + np.abs(np.fft.fft(v[:,i[j]], nfft))
+    for j in range(M - p):
+        Px = Px + np.abs(np.fft.fft(v[:, i[j]], nfft))
 
     Px = -20 * np.log10(Px)
 
@@ -208,19 +209,19 @@ def ev(x, p, M):
     Reference Page 466, Figure 8.35
     '''
 
-    _x = np.array(x)
     if M < p + 1:
         raise ValueError('Specified signal size is too small')
 
-    R = covar(x, M)
+    _x = np.array(x)
+    R = covar(_x, M)
     d, v = np.linalg.eig(R)
-    ddiag = np.diag(d)
+    # ddiag = np.diag(d)
     yi = np.argsort(np.diag(d))
-    y = ddiag[yi]
+    # y = ddiag[yi]
     Px = np.zeros(0)
     nfft = max(1024, M + p + 1)
     for j in range(M - p):
-        Px = Px + np.abs(np.fft.fft(v[:,yi[j]], nfft))
+        Px = Px + np.abs(np.fft.fft(v[:, yi[j]], nfft))
 
     Px = -10 * np.log10(Px)
 
