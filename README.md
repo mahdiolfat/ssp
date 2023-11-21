@@ -4,9 +4,9 @@ Direct impelementation of statistical digital signal processing algorithms from 
 
 The book represents algorithms as:
 
-1. set of instructions (pseudo-code)
-1. matlab code
-1. described in English in the textbook body
+1. set of instructions (pseudo-code) annotated in Tables.
+1. matlab code annotated in Figures.
+1. described in words in the body of the text.
 
 ## Chapters
 
@@ -22,18 +22,13 @@ The book represents algorithms as:
 
 ### TODO
 
-- add proper reference
+- add proper reference to the book
 - lint markdown readme
-- License
-- Finalize test cases for all codes
-- pytest-cov?
+- finalize test cases for all codes
 - python documentation generator
-- linting workflow
-- pass linting
 - mypy static type checking
-- Release package scripts
+- release package scripts
 - stub files?
 - VS code add-ons
 - use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
-- switch linting to Ruff?
 - performance benchmarking would be cool
