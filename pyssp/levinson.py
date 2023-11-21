@@ -17,7 +17,7 @@ def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
         gamma = -np.transpose(r[1:1 + j,]) @ np.flipud(a) / epsilon
         an = np.concatenate((a, np.zeros((1, 1)))).reshape(-1, 1)
         anT = np.conjugate(np.flipud(a))
-        a = an + gamma * np.concatenate(([0], anT.ravel())).reshape(-1, 1)
+        a = an + gamma * np.concatenate((np.zeros(1), anT.ravel())).reshape(-1, 1)
         epsilon = epsilon * (1 - np.abs(gamma)**2)
         print(f"{gamma=},\n{a=},\n{epsilon=}\n")
     return a, epsilon

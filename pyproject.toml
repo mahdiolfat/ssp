@@ -28,3 +28,8 @@ quote-style = "double"
 indent-style = "space"
 skip-magic-trailing-comma = false
 line-ending = "auto"
+
+[tool.mypy]
+mypy_path = "pyssp"
+ignore_missing_imports = true
+#plugins = "numpy.typing.mypy_plugin"
