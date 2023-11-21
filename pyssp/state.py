@@ -35,29 +35,39 @@ def covar(x, p):
     return R
 
 
-# pylama -i W0613
-def normalprony(x, p, q):
-    """Normal Prony Systems of Equations"""
+def normalprony():
+    """Yuler-Walker Systems of Equations.
+
+    Arguements: (x, p, q)
+    """
 
 
-# pylama -i W0613
-def ywe(x, p, q):
-    """Yuler-Walker Systems of Equations"""
+def ywe():
+    """Yuler-Walker Systems of Equations.
+
+    Arguements: (x, p, q)
+    """
 
 
-# pylama -i W0613
-def nywe(x, p, q):
-    """Normalized Yuler-Walker Systems of Equations"""
+def nywe():
+    """Normalized Yuler-Walker Systems of Equations.
+
+    Arguements: (x, p, q)
+    """
 
 
-# pylama -i W0613
-def mywe(x, p, q):
-    """Modified Yuler-Walker Systems of Equations"""
+def mywe():
+    """Modified Yuler-Walker Systems of Equations.
+
+    Arguements: (x, p, q)
+    """
 
 
-# pylama:ignore=W0613
-def eywe(x, p, q):
-    """Extended Yuler-Walker Systems of Equations"""
+def eywe():
+    """Extended Yuler-Walker Systems of Equations.
+
+    Arguements: (x, p, q)
+    """
 
 
 def normaldeterministic():
