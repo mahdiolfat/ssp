@@ -1,0 +1,9 @@
+"""Implementation of algorithm from Chapter 6."""
+
+
+def fcov(x, p): ...
+def burg(x, p): ...
+def mcov(x, p): ...
+
+def bcov(x, p):
+    raise NotImplementedError()
