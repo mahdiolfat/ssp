@@ -3,8 +3,8 @@
 
 import numpy as np
 
-from .state import covar
 from .modeling import acm
+from .state import covar
 
 
 def overlay():
@@ -182,7 +182,7 @@ def music(x, p, M):
     Page 430, Figure 8.19
     """
     _x = np.array(x)
-    if M < p + 1 or len(x) < M:
+    if p + 1 > M or len(x) < M:
         raise ValueError("Size of signal covariance matrix is inappropriate.")
 
     R = covar(x, M)
@@ -208,7 +208,7 @@ def ev(x, p, M):
 
     Reference Page 466, Figure 8.35
     """
-    if M < p + 1:
+    if p + 1 > M:
         raise ValueError('Specified signal size is too small')
 
     _x = np.array(x)
@@ -234,7 +234,7 @@ def min_norm(x, p, M):
     Reference Page 466, Figure 8.35
     """
     _x = np.array(x)
-    if M < p + 1:
+    if p + 1 > M:
         raise ValueError('Specified signal size is too small')
 
     R = covar(_x, M)
@@ -262,7 +262,7 @@ def bt_pc(x, p, M):
     Refence Page 471, Figure 8.38
     """
     _x = np.array(x)
-    if M < p + 1:
+    if p + 1 > M:
         raise ValueError('Specified signal size is too small')
 
     R = covar(_x, M)

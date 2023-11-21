@@ -15,7 +15,16 @@ addopts = [
     "--cov=pyssp"
 ]
 
-[tool.pylama]
-format = "pylint"
-linters = "pylint,pyflakes,pycodestyle,pydocstyle"
-ignore = "C0116,C0103,D213,D401,D415"
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "SIM", "W", "D"]
+ignore = ["D213", "D401", "D211"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
