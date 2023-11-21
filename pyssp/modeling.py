@@ -1,5 +1,6 @@
 """Chapter 4 modeling algorithm implementations."""
 
+
 import numpy as np
 import scipy as sp
 
