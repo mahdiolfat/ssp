@@ -1,6 +1,9 @@
 import numpy as np
 import scipy as sp
 
+from state import convm
+
+
 def pade(x, p, q):
     '''
     Reference Page 138, Table 4.1
@@ -22,6 +25,7 @@ def pade(x, p, q):
 
     return (a, b)
 
+
 def prony(x, p, q):
     '''
     Least square minimization of poles to get denominator coefficients.
@@ -37,15 +41,15 @@ def prony(x, p, q):
     # copy and make given signal column array
     X = convm(x, p + 1)
     print(X.shape)
-    M = p + q
+    # M = p + q
     N = len(x)
     print(f"{N=}")
     xc = x.copy().reshape(-1, 1)
 
-    #Xq = X[q + 1:q + p + 1, 1:p + 1].copy()
-    #a = np.linalg.solve(-Xq, X[q + 1: q + p + 1, 0])
-    #a = np.concatenate((np.ones(1), a)).reshape(-1, 1)
-    #b = X[:q + 1, :p + 1] @ a
+    # Xq = X[q + 1:q + p + 1, 1:p + 1].copy()
+    # a = np.linalg.solve(-Xq, X[q + 1: q + p + 1, 0])
+    # a = np.concatenate((np.ones(1), a)).reshape(-1, 1)
+    # b = X[:q + 1, :p + 1] @ a
 
     # the factorization does not guarantee nonsingularity!
     # resulting matrix is positive *semi*-definite: all zeros are
@@ -67,6 +71,7 @@ def prony(x, p, q):
 
     return a, b, err
 
+
 def shanks(x, p, q):
     '''
     '''
@@ -78,9 +83,9 @@ def shanks(x, p, q):
     a, _, _ = prony(x, p, q)
     print(f"{a.transpose().ravel()=}")
     u = np.concatenate((np.ones(1), np.zeros(N - 1)))
-    zpk = sps.tf2zpk([1], a.ravel())
-    sos = sps.zpk2sos(*zpk)
-    res = sps.sosfilt(sos, x=u)
+    zpk = sp.signal.tf2zpk([1], a.ravel())
+    sos = sp.signal.zpk2sos(*zpk)
+    res = sp.signal.sosfilt(sos, x=u)
     G = convm(res.ravel(), q + 1)
     G0 = G[:N,].copy()
     print(f"{G0.shape=}")
@@ -120,7 +125,7 @@ def spike(g, n0, n):
     return h
 
 
-def ipf(x, p, q, n = 10, a = None):
+def ipf(x, p, q, n=10, a=None):
     pass
 
 
@@ -140,6 +145,7 @@ def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
     err = np.abs(X[:N + p, 0].T @ X @ a)
 
     return a, err
+
 
 def covm(x, p):
     '''
@@ -164,7 +170,7 @@ def covm(x, p):
 
 def durbin(x, p, q):
     x0 = x.copy().ravel().reshape(-1, 1)
-    N = len(x0)
+    # N = len(x0)
     if p >= len(x0):
         raise ValueError("p (all-pole model) too large")
 

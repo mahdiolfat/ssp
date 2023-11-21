@@ -1,5 +1,5 @@
 import numpy as np
-import scipy as sp
+
 
 def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
     '''
@@ -26,7 +26,8 @@ def gtoa(gamma):
     '''
     Reference Page 233, Table 5.2, Figure 5.6
     "Step up recursion defines how model parameters for a jth-order
-    filter may be updated (stepped-up) to a (j + 1)st-order filter given reflection coefficients gamma."
+    filter may be updated (stepped-up) to a (j + 1)st-order filter given reflection
+    coefficients gamma."
 
     Cumulant generating function in statistics.
     '''
@@ -44,9 +45,10 @@ def gtoa(gamma):
 
 def atog(a):
     '''The step-down recursion.
-    
+
     Used within the framework of the "Shur-Cohn stability test".
-    i.e., "the roots of the polynomial will lie inside the unit circle if and only if the magnitudes of the reflection coefficients are less than 1.
+    i.e., "the roots of the polynomial will lie inside the unit circle if and only
+    if the magnitudes of the reflection coefficients are less than 1.
     i.e., the all-pole model/filter is minimum phase and guaranteed to be stable.
 
     Mapping from reflection coefficients to filter coefficients.
@@ -57,20 +59,19 @@ def atog(a):
     # drop a(0) and normalized in case it is not unity.
     _a = _a[1:] / _a[0]
 
-
     gamma = np.zeros((p - 1, 1))
     gamma[p - 2] = _a[p - 2]
 
     for j in range(p - 2, 0, -1):
-        #print(f"{gamma=}, {_a=}")
+        # print(f"{gamma=}, {_a=}")
         ai1 = _a[:j].copy()
         ai2 = _a[:j].copy()
         af = np.flipud(np.conjugate(ai1))
-        #print(f"{ai1=}, {ai2=}, {af=}")
+        # print(f"{ai1=}, {ai2=}, {af=}")
         s1 = ai2 - gamma[j] * af
         s2 = 1 - np.abs(gamma[j])**2
         _a = np.divide(s1, s2)
-        #print(f"{s1=}, {s2=}, {_a=}")
+        # print(f"{s1=}, {s2=}, {_a=}")
         gamma[j - 1] = _a[j - 1]
 
     return gamma
@@ -110,12 +111,12 @@ def ator(a, b):
     Page 241, Figure 5.9.
     '''
 
-    p = len(a) - 1
     gamma = atog(a)
     r = gtor(gamma.ravel())
     r = r * np.sqrt(b) / np.prod(1 - np.abs(gamma)**2)
 
     return r
+
 
 def rtog(r):
     '''
@@ -129,6 +130,7 @@ def rtog(r):
     gamma = atog(a)
     return gamma
 
+
 def glev(r, b):
     '''General Levinson Recursion, solves any Hermitian Toeplitz matrix.
 
@@ -136,7 +138,7 @@ def glev(r, b):
     '''
 
     _r = np.array(r).reshape(-1, 1)
-    _b = np.array([b]).reshape(-1, 1)
+    # _b = np.array([b]).reshape(-1, 1)
     p = len(b)
     a = np.array([[1]]).reshape(-1, 1)
     x = np.array([b[0] / r[0]]).reshape(-1, 1)

@@ -1,12 +1,16 @@
+"""Implementation of algorithm from Chapter 6."""
+
+
 import numpy as np
 import scipy as sp
+
 
 def fcov(x, p):
     '''
     Figure 6.15, Page 310.
 
     Using the forward covariance method the reflection co-efficients of the lattice filter
-    are found by sequentially minimizing the sum of the squares of the forward prediction error. 
+    are found by sequentially minimizing the sum of the squares of the forward prediction error.
     '''
 
     if p >= len(x):
@@ -23,8 +27,8 @@ def fcov(x, p):
     for j in range(p):
         print(j)
         N = N - 1
-        #print(f"{eplus=}, {eplus.shape=}")
-        #print(f"{eminus=}, {eminus.shape=}")
+        # print(f"{eplus=}, {eplus.shape=}")
+        # print(f"{eminus=}, {eminus.shape=}")
         gamma[j] = (np.transpose(-eminus) @ eplus) / (np.transpose(eminus) @ eminus)
         temp1 = eplus + gamma[j] * eminus
         temp2 = eminus + np.conjugate(gamma[j]) * eplus
@@ -59,8 +63,8 @@ def burg(x, p):
     for j in range(p):
         print(j)
         N = N - 1
-        #print(f"{eplus=}, {eplus.shape=}")
-        #print(f"{eminus=}, {eminus.shape=}")
+        # print(f"{eplus=}, {eplus.shape=}")
+        # print(f"{eminus=}, {eminus.shape=}")
         eplusmag = (np.transpose(eplus) @ eplus)
         eminusmag = (np.transpose(eplus) @ eplus)
         gamma[j] = (np.transpose(-2 * eminus) @ eplus) / (eplusmag + eminusmag)
@@ -79,6 +83,7 @@ def bcov(x, p):
     Sequentially minimizes the backward covariance error.
     '''
     pass
+
 
 def mcov(x, p):
     '''

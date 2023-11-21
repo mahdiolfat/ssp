@@ -2,14 +2,19 @@
 
 Direct impelementation of statistical digital signal processing algorithms from the book by the same name by Professor Monson H. Hayes.
 
-- Examples
-- Ready-to-Implement Algorithms
-- New Algorithms
+The book represents algorithms as:
+
+1. set of instructions (pseudo-code)
+1. matlab code
+1. described in English in the textbook body
 
 ## Pour Moi
 
 ### TODO
 
+- add proper reference
+- lint markdown readme
+- License
 - Finalize test cases for all codes
 - pytest-cov?
 - python documentation generator

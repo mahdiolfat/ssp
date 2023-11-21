@@ -21,7 +21,7 @@ jobs:
 
             - name: Lint
               run: |
-                python --version
+                pylama pyssp
 
             - name: Test
               run: |
