@@ -11,4 +11,10 @@ readme = "README.md"
 pythonpath = "."
 addopts = [
     "--import-mode=importlib",
+    "--cov=pyssp"
 ]
+
+[tool.pylama]
+format = "pylint"
+linters = "pylint,pyflakes,pycodestyle,pydocstyle"
+ignore = "C0116,C0103,D213,D401,D415"

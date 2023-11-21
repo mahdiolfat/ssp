@@ -4,7 +4,8 @@
 import numpy as np
 
 
-def kalman(y, A, C, sigmaw, sigmav, u=None):
+# pylint: disable=R0914
+def kalman(y, A, C, sigmaw, sigmav):
     """Kalman Filter.
 
     y: vector of observations N x q,  n time steps, q sensors
@@ -13,7 +14,6 @@ def kalman(y, A, C, sigmaw, sigmav, u=None):
     sigmaw: time-varying process white noise variance(s) (1-D time-ordered list of variances)
     sigmav: time-varying measurement white noise variance(s) (1-D time-ordered list of variances)
     """
-
     _y = np.array(y, ndmin=2)
     _A = np.array(A, ndmin=2)
     _C = np.array(C, ndmin=2)
@@ -65,8 +65,8 @@ def kalman(y, A, C, sigmaw, sigmav, u=None):
 
 
 def wiener_denoise():
-    pass
+    """Denoising based on IIR wiener filters."""
 
 
 def wiener_systemid():
-    pass
+    """Systemid based on FIR wiener filters."""
