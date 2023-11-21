@@ -2,10 +2,11 @@
 
 
 import numpy as np
+import numpy.typing as npt
 
 
-# pylint: disable=R0914
-def kalman(y, A, C, sigmaw, sigmav):
+def kalman(y: list[float], A: npt.ArrayLike, C: npt.ArrayLike, sigmaw: list[float],
+           sigmav: list[float]) -> tuple[npt.NDArray, ...]:
     """Kalman Filter.
 
     y: vector of observations N x q,  n time steps, q sensors
@@ -64,9 +65,11 @@ def kalman(y, A, C, sigmaw, sigmav):
     return P0, P1, K, xhat0, xhat1
 
 
-def wiener_denoise():
+def wiener_denoise() -> None:
     """Denoising based on IIR wiener filters."""
+    raise NotImplementedError()
 
 
-def wiener_systemid():
+def wiener_systemid() -> None:
     """Systemid based on FIR wiener filters."""
+    raise NotImplementedError()

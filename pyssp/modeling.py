@@ -1,22 +1,25 @@
 """Chapter 4 modeling algorithm implementations."""
 
+from typing import NoReturn
 
 import numpy as np
 import scipy as sp
+from numpy.typing import ArrayLike
 
 from .state import convm
 
 
-def pade(x, p, q):
+def pade(x: ArrayLike, p: int, q: int) -> tuple[ArrayLike, ArrayLike]:
     """Reference Page 138, Table 4.1.
 
     The Pade approximation models a signal as the unis sample response
     of linear shift invariant system have p poles and q zeros.
     """
-    if p + q > len(x):
+    _x = np.array(x)
+    if p + q > len(_x):
         raise ValueError(f"Model order {p + q} is too large.")
 
-    X = convm(x, p + 1)
+    X = convm(_x, p + 1)
 
     # Linear difference matrix spanning the number of zeros
     Xq = X[q + 1:q + p + 1, 1:p + 1].copy()
@@ -29,7 +32,7 @@ def pade(x, p, q):
     return (a, b)
 
 
-def prony(x, p, q):
+def prony(x: ArrayLike, p: int, q: int) -> tuple[ArrayLike, ArrayLike, ArrayLike]:
     """Least square minimization of poles to get denominator coefficients.
 
     Solves directly (Pade method) to get numerator coefficients.
@@ -37,6 +40,7 @@ def prony(x, p, q):
 
     Condition to energy_match is on page 575
     """
+    x = np.array(x)
     if p + q > len(x):
         raise ValueError(f"Model order {p + q} is too large.")
 
@@ -74,13 +78,15 @@ def prony(x, p, q):
     return a, b, err
 
 
-def shanks(x, p, q):
+def shanks(x: ArrayLike, p: int, q: int) -> tuple[ArrayLike, ArrayLike, float]:
     """Shank's method."""
+    x = np.array(x)
     N = len(x)
     if p + q >= N:
         raise ValueError(f"Model order {p + q} is too large.")
 
     a, _, _ = prony(x, p, q)
+    a = np.array(a)
     print(f"{a.transpose().ravel()=}")
     u = np.concatenate((np.ones(1), np.zeros(N - 1)))
     res = sp.signal.tf2zpk([1], a.ravel())
@@ -103,9 +109,9 @@ def shanks(x, p, q):
     return a, b, err
 
 
-def spike(g, n0, n):
+def spike(g: ArrayLike, n0: int, n: int) -> ArrayLike:
     """Leaset Squares Inverse Filter."""
-    g = g.reshape(-1, 1)
+    g = np.array(g).reshape(-1, 1)
     m = len(g)
 
     if m + n - 1 <= n0:
@@ -124,16 +130,14 @@ def spike(g, n0, n):
     return h
 
 
-def ipf():
-    """Iterative Pre-Filtering.
-
-    Arguements: (x, p, q, n=10, a=None)
-    """
+def ipf(x: ArrayLike, p: int, q: int, n: None, a: ArrayLike) -> NoReturn:
+    """Iterative Pre-Filtering."""
+    raise NotImplementedError()
 
 
-def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
+def acm(x: ArrayLike, p: int) -> tuple[np.ndarray, np.ndarray]:
     """The auto-correlation method."""
-    x0 = x.copy().ravel().reshape(-1, 1)
+    x0 = np.array(x).ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):
         raise ValueError("p (all-pole model) too large")
@@ -150,9 +154,9 @@ def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
     return a, err
 
 
-def covm(x, p):
+def covm(x: ArrayLike, p: int)-> tuple[ArrayLike, float]:
     """Solve the complete Prony normal equations."""
-    x0 = x.copy().ravel().reshape(-1, 1)
+    x0 = np.array(x).ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):
         raise ValueError(f"{p=} all-pole model too large")
@@ -169,9 +173,9 @@ def covm(x, p):
     return a, err
 
 
-def durbin(x, p, q):
+def durbin(x: ArrayLike, p: int, q: int) -> tuple[ArrayLike, ArrayLike]:
     """The durbin method."""
-    x0 = x.copy().ravel().reshape(-1, 1)
+    x0 = np.array(x).ravel().reshape(-1, 1)
     # N = len(x0)
     if p >= len(x0):
         raise ValueError("p (all-pole model) too large")

@@ -1,21 +1,24 @@
 """Implementation of algorithm from Chapter 6."""
 
+from typing import NoReturn
 
 import numpy as np
 import scipy as sp
+from numpy.typing import ArrayLike
 
 
-def fcov(x, p):
+def fcov(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
     """Figure 6.15, Page 310.
 
     Using the forward covariance method the reflection co-efficients of the lattice filter
     are found by sequentially minimizing the sum of the squares of the forward prediction error.
     """
-    if p >= len(x):
+    _x = np.array(x)
+    if p >= len(_x):
         raise ValueError("Model order must be less than length of signal")
 
-    _x = np.array(x).reshape(-1, 1)
-    N = len(x)
+    _x = np.array(_x).reshape(-1, 1)
+    N = len(_x)
     eplus = _x[1:N]
     eminus = _x[:N - 1]
 
@@ -40,16 +43,16 @@ def fcov(x, p):
     return gamma, err
 
 
-def burg(x, p):
+def burg(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
     """Sequentially minimizes the sum of the forward and backward covariance errors.
 
     Guaranteed to be stable. All reflection coefficients will be <|1|
     """
-    if p > len(x):
+    _x = np.array(x).reshape(-1, 1)
+    N = len(_x)
+    if p > N:
         raise ValueError("Model order must be less than length of signal")
 
-    _x = np.array(x).reshape(-1, 1)
-    N = len(x)
     eplus = _x[1:N]
     eminus = _x[:N - 1]
 
@@ -74,25 +77,24 @@ def burg(x, p):
     return gamma, err
 
 
-def bcov():
-    """Sequentially minimizes the backward covariance error.
-
-    Arguements: (x, p)
-    """
+def bcov(x: ArrayLike, p: int) -> NoReturn:
+    """Sequentially minimizes the backward covariance error."""
+    raise NotImplementedError()
 
 
-def mcov(x, p):
-    """Modified covariance method. Unlike the forward/backward algorithms.
+def mcov(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
+    """Modified covariance method.
 
+    Unlike the forward/backward algorithms.
     It *does not* minimize an error term sequentially.
     """
     _x = np.array(x).reshape(-1, 1)
-    N = len(x)
+    N = len(_x)
 
-    if p >= len(x):
+    if p >= len(_x):
         raise ValueError("Model order must be less than length of signal")
 
-    X = sp.linalg.toeplitz(_x[p:N], np.flipud(x[:p + 1]))
+    X = sp.linalg.toeplitz(_x[p:N], np.flipud(_x[:p + 1]))
     R = np.transpose(X) @ X
     R1 = np.array(R[1:p + 1, 1: p + 1])
     R2 = np.array(np.flipud(np.fliplr(R[:p, :p])))
@@ -103,7 +105,7 @@ def mcov(x, p):
     b = b1 + b2
     a = sp.linalg.solve_toeplitz(Rx[:, 1], b)
     a = np.concatenate(([1], a))
-    print(a.shape)
+    # print(a.shape)
     err = np.dot(R[0], a) + np.dot(np.flip(R[p]), a)
 
     return a, err

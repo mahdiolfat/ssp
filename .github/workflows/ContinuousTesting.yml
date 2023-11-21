@@ -21,12 +21,12 @@ jobs:
 
             - name: Static Lint
               run: |
-                ruff check --output-format=github pyssp --verbose
+                ruff . --verbose --output-format=github 
 
             - name: Static Type Check
               run: |
-                mypy pyssp --explicit-package-bases
+                mypy --verbose
 
             - name: Test
               run: |
-                pytest
+                pytest --verbose
