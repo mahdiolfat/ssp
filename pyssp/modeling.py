@@ -155,7 +155,7 @@ def covm(x, p):
     x0 = x.copy().ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):
-        raise ValueError("p (all-pole model) too large")
+        raise ValueError(f"{p=} all-pole model too large")
 
     X = convm(x0, p + 1)
     Xq = X[p - 1:N - 1, :p].copy()

@@ -8,7 +8,17 @@ The book represents algorithms as:
 1. matlab code
 1. described in English in the textbook body
 
-## Pour Moi
+## Chapters
+
+1. Introduction
+2. Background
+3. Discrete-Time Random Processes
+4. Signal Modeling
+5. The Levinson Recursion
+6. Lattice Filters
+7. Optimum Filters
+8. Spectrum Estimation
+9. Adaptive Filters
 
 ### TODO
 
@@ -25,3 +35,5 @@ The book represents algorithms as:
 - stub files?
 - VS code add-ons
 - use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
+- switch linting to Ruff?
+- performance benchmarking would be cool
