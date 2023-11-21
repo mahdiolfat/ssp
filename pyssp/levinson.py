@@ -1,20 +1,23 @@
 """Chapter 5 algorithm implementations."""
 
+
 import numpy as np
+from numpy.typing import ArrayLike
 
 
-def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
+def rtoa(r: ArrayLike) -> tuple[np.ndarray, float]:
     """Recursively map a set of autocorrelations to a set of model parameters.
 
     The Levison-Durbin recursion.
     """
+    _r = np.array(r)
     a = np.ones((1, 1))
-    epsilon = r[0]
-    p = len(r) - 1
-    r = r.reshape(-1, 1)
+    epsilon = _r[0]
+    p = len(_r) - 1
+    _r = _r.reshape(-1, 1)
 
     for j in range(1, p + 1):
-        gamma = -np.transpose(r[1:1 + j,]) @ np.flipud(a) / epsilon
+        gamma = -np.transpose(_r[1:1 + j,]) @ np.flipud(a) / epsilon
         an = np.concatenate((a, np.zeros((1, 1)))).reshape(-1, 1)
         anT = np.conjugate(np.flipud(a))
         a = an + gamma * np.concatenate((np.zeros(1), anT.ravel())).reshape(-1, 1)
@@ -23,7 +26,7 @@ def rtoa(r) -> tuple[np.ndarray, np.ndarray]:
     return a, epsilon
 
 
-def gtoa(gamma):
+def gtoa(gamma: ArrayLike) -> ArrayLike:
     """Recursively map parameters to reflection coeffs.
 
     Reference Page 233, Table 5.2, Figure 5.6.
@@ -35,17 +38,18 @@ def gtoa(gamma):
     Cumulant generating function in statistics.
     """
     a = np.ones((1, 1))
-    p = len(gamma)
+    _g = np.array(gamma)
+    p = len(_g)
     for j in range(1, p):
         a = np.concatenate((a, np.zeros((1, 1))))
         _a = a.copy()
         af = np.conjugate(np.flipud(_a))
-        a = a + gamma[j] * af
+        a = a + _g[j] * af
 
     return a
 
 
-def atog(a):
+def atog(a: ArrayLike) -> ArrayLike:
     """Recursively map from reflection coeffs to filter coeffs.
 
     The step-down recursion.
@@ -80,20 +84,21 @@ def atog(a):
     return gamma
 
 
-def gtor(gamma, epsilon=None):
+def gtor(gamma: ArrayLike, epsilon: None | float = None) -> ArrayLike:
     """Find the autocorrelation sequence from the reflection coefficients and the modeling error.
 
     Page 241, Figure 5.9.
     """
-    p = len(gamma)
-    aa = np.array([[gamma[0]]]).reshape(-1, 1)
-    r = np.array(([1, -gamma[0]])).reshape(1, -1)
+    _g = np.array(gamma)
+    p = len(_g)
+    aa = np.array([[_g[0]]]).reshape(-1, 1)
+    r = np.array(([1, -_g[0]])).reshape(1, -1)
 
     for j in range(1, p):
         aa1 = np.concatenate((np.ones((1, 1)), aa)).reshape(-1, 1)
         aa0 = np.concatenate((aa, np.zeros((1, 1)))).reshape(-1, 1)
         aaf = np.conjugate(np.flipud(aa1))
-        aa = aa0 + gamma[j] * aaf
+        aa = aa0 + _g[j] * aaf
         print(aa)
         rf = -np.fliplr(r) @ aa
         print(rf)
@@ -109,16 +114,16 @@ def gtor(gamma, epsilon=None):
     return r
 
 
-def ator(a, b):
+def ator(a: ArrayLike, b: float) -> ArrayLike:
     """Page 241, Figure 5.9."""
     gamma = atog(a)
-    r = gtor(gamma.ravel())
+    r = gtor(gamma)
     r = r * np.sqrt(b) / np.prod(1 - np.abs(gamma)**2)
 
     return r
 
 
-def rtog(r):
+def rtog(r: ArrayLike) -> ArrayLike:
     """Recurse from the model params to filter coeffs.
 
     The Shur Recursion: Table 5.5.
@@ -130,17 +135,17 @@ def rtog(r):
     return gamma
 
 
-def glev(r, b):
+def glev(r: ArrayLike, b: ArrayLike) -> ArrayLike:
     """General Levinson Recursion, solves any Hermitian Toeplitz matrix.
 
     Can solve the Wiener-Hopf system of equations for Optimal MSE Filter design.
     """
     _r = np.array(r).reshape(-1, 1)
-    # _b = np.array([b]).reshape(-1, 1)
-    p = len(b)
+    _b = np.array([b]).reshape(-1, 1)
+    p = len(_b)
     a = np.array([[1]]).reshape(-1, 1)
-    x = np.array([b[0] / r[0]]).reshape(-1, 1)
-    epsilon = r[0]
+    x = np.array([_b[0] / _r[0]]).reshape(-1, 1)
+    epsilon = _r[0]
     for j in range(1, p):
         print(j)
         print(f"{_r=}, {_r.shape=}")
@@ -160,7 +165,7 @@ def glev(r, b):
         epsilon = epsilon * (1 - np.abs(gamma)**2)
         print(f"{epsilon=}")
         delta = _r1 @ np.flipud(x)
-        q = (b[j] - delta[0, 0]) / epsilon
+        q = (_b[j] - delta[0, 0]) / epsilon
         x = np.concatenate([x, [[0]]])
         x = x + q * np.conjugate(np.flipud(a))
         print()
