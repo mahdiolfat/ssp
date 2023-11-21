@@ -6,9 +6,25 @@ build-backend = "hatchling.build"
 name = "pyssp"
 version = "0.0.1"
 readme = "README.md"
+license = "LICENSE.txt"
 
 [tool.pytest.ini_options]
 pythonpath = "."
 addopts = [
     "--import-mode=importlib",
+    "--cov=pyssp"
 ]
+
+[tool.ruff]
+line-length = 100
+indent-width = 4
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "SIM", "W", "D"]
+ignore = ["D213", "D401", "D211"]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"

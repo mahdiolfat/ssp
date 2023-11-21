@@ -19,9 +19,9 @@ jobs:
                 python -m pip install --upgrade pip setuptools wheel
                 pip install -r requirements.txt
 
-            - name: Lint
+            - name: Static Lint
               run: |
-                python --version
+                ruff check --output-format=github pyssp --verbose
 
             - name: Test
               run: |
