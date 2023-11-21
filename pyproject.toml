@@ -14,5 +14,6 @@ addopts = [
 ]
 
 [tool.pylama]
-linters = "pylint,pycodestyle,pyflakes,pydocstyle"
+format = "pylint"
+linters = "pylint,pyflakes,pycodestyle,pydocstyle"
 ignore = "C0116,C0103,D213,D401,D415"
