@@ -4,7 +4,8 @@
 import numpy as np
 
 
-def kalman(y, A, C, sigmaw, sigmav, u=None):
+# pylint: disable=R0914
+def kalman(y, A, C, sigmaw, sigmav):
     """Kalman Filter.
 
     y: vector of observations N x q,  n time steps, q sensors

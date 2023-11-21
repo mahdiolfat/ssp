@@ -1,7 +1,10 @@
+"""Chapter 4 modeling algorithm implementations"""
+
 import numpy as np
 import scipy as sp
 
-from state import convm
+
+from .state import convm
 
 
 def pade(x, p, q):
@@ -73,8 +76,7 @@ def prony(x, p, q):
 
 
 def shanks(x, p, q):
-    '''
-    '''
+    """Shank's method."""
 
     N = len(x)
     if p + q >= N:
@@ -83,9 +85,9 @@ def shanks(x, p, q):
     a, _, _ = prony(x, p, q)
     print(f"{a.transpose().ravel()=}")
     u = np.concatenate((np.ones(1), np.zeros(N - 1)))
-    zpk = sp.signal.tf2zpk([1], a.ravel())
-    sos = sp.signal.zpk2sos(*zpk)
-    res = sp.signal.sosfilt(sos, x=u)
+    res = sp.signal.tf2zpk([1], a.ravel())
+    res = sp.signal.zpk2sos(*res)
+    res = sp.signal.sosfilt(res, x=u)
     G = convm(res.ravel(), q + 1)
     G0 = G[:N,].copy()
     print(f"{G0.shape=}")
@@ -125,11 +127,16 @@ def spike(g, n0, n):
     return h
 
 
-def ipf(x, p, q, n=10, a=None):
-    pass
+def ipf():
+    """Iterative Pre-Filtering.
+
+    Arguements: (x, p, q, n=10, a=None)
+    """
 
 
 def acm(x, p) -> tuple[np.ndarray, np.ndarray]:
+    """The auto-correlation method"""
+
     x0 = x.copy().ravel().reshape(-1, 1)
     N = len(x0)
     if p >= len(x0):

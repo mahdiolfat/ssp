@@ -1,19 +1,17 @@
+"""Chapter 3, stochastic systems"""
+
 
 def arma():
-    pass
+    """Auto-regressive Moving-Average"""
 
 
 def ar():
-    pass
+    """Auto-regressive"""
 
 
 def ma():
-    pass
-
-
-def harmonics():
-    pass
+    """Moving Average"""
 
 
 def wiener():
-    pass
+    """Optimal Wiener"""

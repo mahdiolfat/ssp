@@ -1,3 +1,5 @@
+"Chapter 5 algorithm implementations."
+
 import numpy as np
 
 
@@ -126,7 +128,7 @@ def rtog(r):
 
     '''
 
-    a, epsilon = rtoa(r)
+    a, _ = rtoa(r)
     gamma = atog(a)
     return gamma
 
@@ -163,8 +165,8 @@ def glev(r, b):
         print(f"{epsilon=}")
         delta = _r1 @ np.flipud(x)
         q = (b[j] - delta[0, 0]) / epsilon
-        _x0 = np.concatenate([x, [[0]]])
-        x = _x0 + q * np.conjugate(np.flipud(a))
+        x = np.concatenate([x, [[0]]])
+        x = x + q * np.conjugate(np.flipud(a))
         print()
 
     return x

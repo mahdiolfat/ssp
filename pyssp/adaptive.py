@@ -1,3 +1,5 @@
+"""Chapter 9 algorithm implementations."""
+
 import numpy as np
 
 from .state import convm
@@ -29,12 +31,13 @@ def lms(x, d, mu, nord, a0=None):
     return A, E
 
 
-def nlms(x, d, beta, nord, a0, delta=0.0001):
+def nlms(x, d, beta, nord, a0):
     '''Normalized LMS Adaptive Filter
 
     Refernce Page 515, Figure 9.12
     '''
 
+    delta = 0.0001
     X = convm(x, nord)
     M, N = X.shape
 

@@ -12,3 +12,7 @@ pythonpath = "."
 addopts = [
     "--import-mode=importlib",
 ]
+
+[tool.pylama]
+linters = "pylint,pycodestyle,pyflakes"
+ignore = "C0116,C0103"

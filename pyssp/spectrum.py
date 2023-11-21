@@ -3,13 +3,15 @@
 
 import numpy as np
 
-from state import covar
-from modeling import acm
+from .state import covar
+from .modeling import acm
 
 
-def overlay(N, omega, A, sigma, num):
-    '''Calculates the periodogram using an ensemble of realizations'''
-    pass
+def overlay():
+    """Calculates the periodogram using an ensemble of realizations.
+
+    Arguements: (N, omega, A, sigma, num)
+    """
 
 
 def periodogram(x, n1=0, n2=None, nfft=1024):
@@ -33,7 +35,7 @@ def periodogram(x, n1=0, n2=None, nfft=1024):
     return Px
 
 
-def mper(x, win, n1, n2):
+def mper(x, n1, n2, win=None):
     '''Modified Periodogram: non-paramteric spectrum estimator.
 
     Same as the periodogram but the signal is windowed first.
@@ -46,8 +48,9 @@ def mper(x, win, n1, n2):
     N = n2 - n1
 
     # rectangular window
-    w = np.ones(N)
-    xw = _x[n1:n2] * w / np.linalg.norm(w)
+    if win is None:
+        win = np.ones(N)
+    xw = _x[n1:n2] * win / np.linalg.norm(win)
     Px = N * periodogram(xw)
 
     return Px
@@ -65,14 +68,14 @@ def bart(x, nsect):
     Px = np.zeros(1)
 
     n1 = 0
-    for i in range(1, nsect + 1):
+    for _ in range(1, nsect + 1):
         Px = Px + periodogram((_x[n1:n1 + L - 1])) / nsect
         n1 = n1 + L
 
     return Px
 
 
-def welch(x, L, over, win):
+def welch(x, L, over, win=None):
     '''Welch's method: non-paramteric spectrum estimator.
 
     Reference Page 418, Figure 8.16
@@ -87,14 +90,14 @@ def welch(x, L, over, win):
 
     nsect = 1 + (len(_x) - L) // n0
     Px = np.zeros(1)
-    for i in range(nsect):
+    for _ in range(nsect):
         Px = Px + mper(_x, win, n1, n1 + L - 1)
         n1 = n1 + n0
 
     return Px
 
 
-def per_smooth(x, win, M, n1=0, n2=None):
+def per_smooth(x, M, n1=0, n2=None, win=None):
     '''Blackman-Tukey Spectrum Estimator: non-parametric estimation
 
     Page 421, Figure 8.18
@@ -108,8 +111,9 @@ def per_smooth(x, win, M, n1=0, n2=None):
     r = np.concatenate((np.flip(R[0, 1:M]),
                         [R[0, 0]], R[0, 1:M]))
 
-    w = np.ones(M)
-    r = r * w
+    if win is None:
+        win = np.ones(M)
+    r = r * win
     nfft = max(1024, M)
     Px = np.abs(np.fft.fft(r, nfft))
     Px[0] = Px[1]
@@ -147,11 +151,13 @@ def mem(x, p):
     return Px
 
 
-def modal(x, p, q):
-    '''Mode-based spectrum estimator: parametric estimation
+def modal():
+    """Mode-based spectrum estimator: parametric estimation
 
-    Page 440
-    '''
+    Page 440.
+
+    Arguements: (x, p, q)
+    """
 
 
 def phd(x, p):
@@ -281,9 +287,15 @@ def bt_pc(x, p, M):
     return Px
 
 
-def mv_pc(x, p, M):
-    pass
+def mv_pc():
+    """Minimum Variance, Principle Component"
+
+    Arguements: (x, p, M)
+    """
 
 
-def ar_pc(x, p, M):
-    pass
+def ar_pc():
+    """Autoregressive, Principle Component"
+
+    Arguements: (x, p, M)
+    """

@@ -65,8 +65,8 @@ def burg(x, p):
         N = N - 1
         # print(f"{eplus=}, {eplus.shape=}")
         # print(f"{eminus=}, {eminus.shape=}")
-        eplusmag = (np.transpose(eplus) @ eplus)
-        eminusmag = (np.transpose(eplus) @ eplus)
+        eplusmag = np.transpose(eplus) @ eplus
+        eminusmag = np.transpose(eplus) @ eplus
         gamma[j] = (np.transpose(-2 * eminus) @ eplus) / (eplusmag + eminusmag)
         temp1 = eplus + gamma[j] * eminus
         temp2 = eminus + np.conjugate(gamma[j]) * eplus
@@ -78,11 +78,12 @@ def burg(x, p):
     return gamma, err
 
 
-def bcov(x, p):
+def bcov():
     '''
     Sequentially minimizes the backward covariance error.
+
+    Arguements: (x, p)
     '''
-    pass
 
 
 def mcov(x, p):

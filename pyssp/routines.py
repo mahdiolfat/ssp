@@ -1,5 +1,8 @@
+"""Some helper routines"""
 
 
-def back_substitution(x, p):
-    '''Convinient recursion for an all-pole model.'''
-    pass
+def back_substitution():
+    """Convinient recursion for an all-pole model.
+
+    Arguements: (x, p)
+    """

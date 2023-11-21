@@ -1,13 +1,13 @@
-""""""
+"""Systems of state matrix representation from the Appendix."""
 
 
 import numpy as np
 
 
 def convm(x, p):
-    '''Convolution Matrix
+    """Convolution Matrix
     (N + p - 1) by p non-symmetric Toeplitz matrix
-    '''
+    """
 
     if p < 1:
         raise ValueError(f"{p=} must be greater or equal to 1.")
@@ -35,29 +35,34 @@ def covar(x, p):
     return R
 
 
+# pylama -i W0613
 def normalprony(x, p, q):
-    pass
+    """Normal Prony Systems of Equations"""
 
 
+# pylama -i W0613
 def ywe(x, p, q):
-    pass
+    """Yuler-Walker Systems of Equations"""
 
 
+# pylama -i W0613
 def nywe(x, p, q):
-    pass
+    """Normalized Yuler-Walker Systems of Equations"""
 
 
+# pylama -i W0613
 def mywe(x, p, q):
-    pass
+    """Modified Yuler-Walker Systems of Equations"""
 
 
+# pylama:ignore=W0613
 def eywe(x, p, q):
-    pass
+    """Extended Yuler-Walker Systems of Equations"""
 
 
 def normaldeterministic():
-    pass
+    """Normal Determenistic Systems of Equations"""
 
 
 def wienerhopf():
-    pass
+    """Wiener-Hopf Systems of Equations"""
