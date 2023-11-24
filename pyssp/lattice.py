@@ -1,10 +1,13 @@
 """Implementation of algorithm from Chapter 6."""
 
+import logging
 from typing import NoReturn
 
 import numpy as np
 import scipy as sp
 from numpy.typing import ArrayLike
+
+logger = logging.getLogger(__name__)
 
 
 def fcov(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
@@ -26,19 +29,18 @@ def fcov(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
     err = np.empty((p, 1))
 
     for j in range(p):
-        print(j)
+        logger.info(j)
         N = N - 1
-        # print(f"{eplus=}, {eplus.shape=}")
-        # print(f"{eminus=}, {eminus.shape=}")
+        logger.info(f"{eplus=}, {eplus.shape=}")
+        logger.info(f"{eminus=}, {eminus.shape=}")
         gamma[j] = (np.transpose(-eminus) @ eplus) / (np.transpose(eminus) @ eminus)
         temp1 = eplus + gamma[j] * eminus
         temp2 = eminus + np.conjugate(gamma[j]) * eplus
         err[j] = np.transpose(temp1) @ temp1
         eplus = temp1[1:N]
         eminus = temp2[:N - 1]
-        print(gamma)
-        print(err)
-        print()
+        logger.info(gamma)
+        logger.info(err)
 
     return gamma, err
 
@@ -60,10 +62,10 @@ def burg(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
     err = np.empty((p, 1))
 
     for j in range(p):
-        print(j)
+        logger.info(j)
         N = N - 1
-        # print(f"{eplus=}, {eplus.shape=}")
-        # print(f"{eminus=}, {eminus.shape=}")
+        logger.info(f"{eplus=}, {eplus.shape=}")
+        logger.info(f"{eminus=}, {eminus.shape=}")
         eplusmag = np.transpose(eplus) @ eplus
         eminusmag = np.transpose(eplus) @ eplus
         gamma[j] = (np.transpose(-2 * eminus) @ eplus) / (eplusmag + eminusmag)
@@ -72,7 +74,6 @@ def burg(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
         err[j] = np.transpose(temp1) @ temp1 + np.transpose(temp2) @ temp2
         eplus = temp1[1:N]
         eminus = temp2[:N - 1]
-        print()
 
     return gamma, err
 
@@ -105,7 +106,6 @@ def mcov(x: ArrayLike, p: int) -> tuple[ArrayLike, ArrayLike]:
     b = b1 + b2
     a = sp.linalg.solve_toeplitz(Rx[:, 1], b)
     a = np.concatenate(([1], a))
-    # print(a.shape)
     err = np.dot(R[0], a) + np.dot(np.flip(R[p]), a)
 
     return a, err

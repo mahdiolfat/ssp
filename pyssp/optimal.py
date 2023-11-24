@@ -1,12 +1,16 @@
-"""Optimal Wiener Filters."""
+"""Optimal Filters, Chapter 7."""
 
+import logging
+from typing import NoReturn
 
 import numpy as np
-import numpy.typing as npt
+from numpy.typing import ArrayLike
+
+logger = logging.getLogger(__name__)
 
 
-def kalman(y: list[float], A: npt.ArrayLike, C: npt.ArrayLike, sigmaw: list[float],
-           sigmav: list[float]) -> tuple[npt.NDArray, ...]:
+def kalman(y: list[float], A: ArrayLike, C: ArrayLike, sigmaw: list[float],
+           sigmav: list[float]) -> tuple[np.ndarray, ...]:
     """Kalman Filter.
 
     y: vector of observations N x q,  n time steps, q sensors
@@ -21,11 +25,11 @@ def kalman(y: list[float], A: npt.ArrayLike, C: npt.ArrayLike, sigmaw: list[floa
     Qw = np.diag(np.array(sigmaw, ndmin=1))
     Qv = np.diag(np.array(sigmav, ndmin=1))
     N = np.shape(_y)[1]
-    print(_y)
+    logger.info(_y)
 
     p = np.shape(_A)[0]
     q = np.shape(_C)[0]
-    print(f"{p}, {q}, {N=}")
+    logger.info(f"{p}, {q}, {N=}")
 
     # The a priori error covariance matrix
     P0 = np.zeros((N + 1, p, p))
@@ -65,11 +69,16 @@ def kalman(y: list[float], A: npt.ArrayLike, C: npt.ArrayLike, sigmaw: list[floa
     return P0, P1, K, xhat0, xhat1
 
 
-def wiener_denoise() -> None:
+def wiener_denoise() -> NoReturn:
     """Denoising based on IIR wiener filters."""
     raise NotImplementedError()
 
 
-def wiener_systemid() -> None:
+def wiener_systemid() -> NoReturn:
     """Systemid based on FIR wiener filters."""
+    raise NotImplementedError()
+
+
+def wiener_hopf(x: ArrayLike, p: int, q: int) -> NoReturn:
+    """Wiener-Hopf Systems of Equations."""
     raise NotImplementedError()
