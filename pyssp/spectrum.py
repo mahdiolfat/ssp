@@ -1,4 +1,4 @@
-"""Power spectrum and Frequency Estimators."""
+"""Power spectrum and Frequency Estimators. Chapter 8."""
 
 from typing import NoReturn
 
