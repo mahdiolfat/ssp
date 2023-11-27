@@ -1,12 +1,13 @@
-"""Optimal Wiener Filters."""
+"""Optimal Filters, Chapter 7."""
 
+from typing import NoReturn
 
 import numpy as np
-import numpy.typing as npt
+from numpy.typing import ArrayLike
 
 
-def kalman(y: list[float], A: npt.ArrayLike, C: npt.ArrayLike, sigmaw: list[float],
-           sigmav: list[float]) -> tuple[npt.NDArray, ...]:
+def kalman(y: list[float], A: ArrayLike, C: ArrayLike, sigmaw: list[float],
+           sigmav: list[float]) -> tuple[np.ndarray, ...]:
     """Kalman Filter.
 
     y: vector of observations N x q,  n time steps, q sensors
@@ -72,4 +73,9 @@ def wiener_denoise() -> None:
 
 def wiener_systemid() -> None:
     """Systemid based on FIR wiener filters."""
+    raise NotImplementedError()
+
+
+def wiener_hopf(x: ArrayLike, p: int, q: int) -> NoReturn:
+    """Wiener-Hopf Systems of Equations."""
     raise NotImplementedError()
