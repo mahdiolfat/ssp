@@ -6,7 +6,8 @@ import numpy as np
 from pyssp import state
 
 
-def test_convm():
+def test_convm() -> None:
+    """Given a known system, generate its convolution matrix and validate."""
     x = np.array([1, 2, 3])
     p = 4
 
@@ -19,7 +20,8 @@ def test_convm():
     assert np.array_equal(expected, state.convm(x, p))
 
 
-def test_covar():
+def test_covar() -> None:
+    """Given a known system, generate its covariance matrix to validate implementation."""
     x = np.array([1, 2, 3])
     p = 4
 
