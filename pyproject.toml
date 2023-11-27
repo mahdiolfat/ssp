@@ -10,6 +10,7 @@ license = "LICENSE.txt"
 
 [tool.pytest.ini_options]
 pythonpath = "."
+log_cli = true
 addopts = [
     "--import-mode=importlib",
     "--cov=pyssp"
@@ -23,6 +24,9 @@ indent-width = 4
 target-version = "py312"
 extend-exclude = [".pyenv*"]
 
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
 [tool.ruff.lint]
 select = ["E",
           "F",
@@ -35,11 +39,9 @@ select = ["E",
           "NPY",
           "PERF",
           "C90",
-          "RUF"]
+          "RUF",
+          "D417", "D414"]
 ignore = ["D213", "D401", "D211"]
-
-[tool.ruff.lint.pydocstyle]
-convention = "google"
 
 [tool.ruff.format]
 quote-style = "double"

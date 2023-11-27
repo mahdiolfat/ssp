@@ -12,7 +12,7 @@ def convm(x: ArrayLike, p: int) -> np.ndarray:
 
     (N + p - 1) by p non-symmetric Toeplitz matrix
     """
-    _x = np.array(x)
+    _x = np.array(x).ravel()
     if p < 1:
         raise ValueError(f"{p=} must be greater or equal to 1.")
 
@@ -40,13 +40,16 @@ def covar(x: ArrayLike, p: int) -> np.ndarray:
     return R
 
 
-def normalprony(x: ArrayLike, p: int, q: int) -> NoReturn:
-    """Normalized prony Systems of Equations."""
+def nprony(x: ArrayLike, p: int, q: int) -> NoReturn:
+    """Normalized Prony Systems of Equations."""
     raise NotImplementedError()
 
 
 def ywe(x: ArrayLike, p: int, q: int) -> NoReturn:
-    """Yuler-Walker Systems of Equations."""
+    """Yuler-Walker Systems of Equations.
+
+    Page 110.
+    """
     raise NotImplementedError()
 
 
@@ -55,21 +58,6 @@ def nywe(x: ArrayLike, p: int, q: int) -> NoReturn:
     raise NotImplementedError()
 
 
-def mywe(x: ArrayLike, p: int, q: int) -> NoReturn:
-    """Modified Yuler-Walker Systems of Equations."""
-    raise NotImplementedError()
-
-
-def eywe(x: ArrayLike, p: int, q: int) -> NoReturn:
-    """Extended Yuler-Walker Systems of Equations."""
-    raise NotImplementedError()
-
-
-def normaldeterministic(x: ArrayLike, p: int, q: int) -> NoReturn:
+def ndeterministic(x: ArrayLike, p: int, q: int) -> NoReturn:
     """Normal Determenistic Systems of Equations."""
-    raise NotImplementedError()
-
-
-def wienerhopf(x: ArrayLike, p: int, q: int) -> NoReturn:
-    """Wiener-Hopf Systems of Equations."""
     raise NotImplementedError()
