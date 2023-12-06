@@ -19,16 +19,3 @@ The book represents algorithms as:
 7. Optimum Filters
 8. Spectrum Estimation
 9. Adaptive Filters
-
-### TODO
-
-- add proper reference to the book
-- lint markdown readme
-- finalize test cases for all codes
-- python documentation generator
-- mypy static type checking
-- release package scripts
-- stub files?
-- VS code add-ons
-- use matlab-equivalent psuedo-inverse ("X \ R") operation to match the book
-- performance benchmarking would be cool

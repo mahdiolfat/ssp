@@ -6,4 +6,4 @@ ruff
 pytest
 pytest-cov
 mypy
-jupyterlab
+#jupyterlab

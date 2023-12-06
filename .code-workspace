@@ -5,6 +5,8 @@
         }
     ],
     "settings": {
+        "python.terminal.activateEnvInCurrentTerminal": true,
+        "python.terminal.activateEnvironment": true,
         "python.analysis.useLibraryCodeForTypes": true,
         "python.analysis.completeFunctionParens": true,
         "python.analysis.importFormat": "relative",
@@ -12,7 +14,7 @@
         "python.analysis.typeCheckingMode": "basic",
         "python.analysis.diagnosticMode": "workspace",
         "python.analysis.autoSearchPaths": true,
-        "terminal.integrated.defaultProfile.windows": "Command Prompt",
+        "terminal.integrated.defaultProfile.windows": "Ubuntu (WSL)",
         "editor.accessibilitySupport": "off",
         "notebook.output.textLineLimit": 10,
         "[python]": {
