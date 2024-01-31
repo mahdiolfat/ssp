@@ -1,8 +1,12 @@
 """Chapter 5 algorithm implementations."""
 
+import logging
+from typing import NoReturn
 
 import numpy as np
 from numpy.typing import ArrayLike
+
+logger = logging.getLogger()
 
 
 def rtoa(r: ArrayLike) -> tuple[np.ndarray, float]:
@@ -22,8 +26,8 @@ def rtoa(r: ArrayLike) -> tuple[np.ndarray, float]:
         anT = np.conjugate(np.flipud(a))
         a = an + gamma * np.concatenate((np.zeros(1), anT.ravel())).reshape(-1, 1)
         epsilon = epsilon * (1 - np.abs(gamma)**2)
-        print(f"{gamma=},\n{a=},\n{epsilon=}\n")
-    return a, epsilon
+        logger.info(f"{gamma=},\n{a=},\n{epsilon=}\n")
+    return a.ravel(), epsilon.ravel()[0]
 
 
 def gtoa(gamma: ArrayLike) -> ArrayLike:
@@ -40,13 +44,13 @@ def gtoa(gamma: ArrayLike) -> ArrayLike:
     a = np.ones((1, 1))
     _g = np.array(gamma)
     p = len(_g)
-    for j in range(1, p):
+    for j in range(1, p + 1):
         a = np.concatenate((a, np.zeros((1, 1))))
         _a = a.copy()
         af = np.conjugate(np.flipud(_a))
-        a = a + _g[j] * af
+        a = a + _g[j - 1] * af
 
-    return a
+    return a.ravel()
 
 
 def atog(a: ArrayLike) -> ArrayLike:
@@ -70,22 +74,24 @@ def atog(a: ArrayLike) -> ArrayLike:
     gamma[p - 2] = _a[p - 2]
 
     for j in range(p - 2, 0, -1):
-        # print(f"{gamma=}, {_a=}")
+        # logger.info(f"{gamma=}, {_a=}")
         ai1 = _a[:j].copy()
         ai2 = _a[:j].copy()
         af = np.flipud(np.conjugate(ai1))
-        # print(f"{ai1=}, {ai2=}, {af=}")
+        # logger.info(f"{ai1=}, {ai2=}, {af=}")
         s1 = ai2 - gamma[j] * af
         s2 = 1 - np.abs(gamma[j])**2
         _a = np.divide(s1, s2)
-        # print(f"{s1=}, {s2=}, {_a=}")
+        # logger.info(f"{s1=}, {s2=}, {_a=}")
         gamma[j - 1] = _a[j - 1]
 
-    return gamma
+    return gamma.ravel()
 
 
 def gtor(gamma: ArrayLike, epsilon: None | float = None) -> ArrayLike:
     """Find the autocorrelation sequence from the reflection coefficients and the modeling error.
+
+    Also called the Inverse Levinson-Durbin Recursion.
 
     Page 241, Figure 5.9.
     """
@@ -99,19 +105,18 @@ def gtor(gamma: ArrayLike, epsilon: None | float = None) -> ArrayLike:
         aa0 = np.concatenate((aa, np.zeros((1, 1)))).reshape(-1, 1)
         aaf = np.conjugate(np.flipud(aa1))
         aa = aa0 + _g[j] * aaf
-        print(aa)
+        logger.info(aa)
         rf = -np.fliplr(r) @ aa
-        print(rf)
-        print(rf.shape)
-        print(r)
-        print(r.shape)
-        print()
+        logger.info(rf)
+        logger.info(rf.shape)
+        logger.info(r)
+        logger.info(r.shape)
         r = np.concatenate((r[0], rf[0])).reshape(1, -1)
 
     if epsilon is not None:
         r = r * epsilon / np.prod(1 - np.abs(gamma)**2)
 
-    return r
+    return r.ravel()
 
 
 def ator(a: ArrayLike, b: float) -> ArrayLike:
@@ -147,27 +152,39 @@ def glev(r: ArrayLike, b: ArrayLike) -> ArrayLike:
     x = np.array([_b[0] / _r[0]]).reshape(-1, 1)
     epsilon = _r[0]
     for j in range(1, p):
-        print(j)
-        print(f"{_r=}, {_r.shape=}")
+        logger.info(j)
+        logger.info(f"{_r=}, {_r.shape=}")
         _r1 = np.transpose(np.array(_r[1:j + 1]))
-        print(f"{_r1=}, {_r1.shape=}")
-        print(f"{x=}, {x.shape=}")
-        print(f"{a=}, {a.shape=}")
+        logger.info(f"{_r1=}, {_r1.shape=}")
+        logger.info(f"{x=}, {x.shape=}")
+        logger.info(f"{a=}, {a.shape=}")
         g = _r1 @ np.flipud(a)
-        print(f"{g=}, {g.shape=}")
+        logger.info(f"{g=}, {g.shape=}")
         gamma = -g / epsilon
-        print(f"{gamma=}, {gamma.shape=}")
+        logger.info(f"{gamma=}, {gamma.shape=}")
         _a0 = np.concatenate([a, [[0]]])
         _af = np.conjugate(np.flipud(_a0))
-        print(f"{_a0=}, {_a0.shape=}")
-        print(f"{_af=}, {_af.shape=}")
+        logger.info(f"{_a0=}, {_a0.shape=}")
+        logger.info(f"{_af=}, {_af.shape=}")
         a = _a0 + gamma * _af
         epsilon = epsilon * (1 - np.abs(gamma)**2)
-        print(f"{epsilon=}")
+        logger.info(f"{epsilon=}")
         delta = _r1 @ np.flipud(x)
         q = (_b[j] - delta[0, 0]) / epsilon
         x = np.concatenate([x, [[0]]])
         x = x + q * np.conjugate(np.flipud(a))
-        print()
 
-    return x
+    return x.ravel()
+
+
+def shur_cohn_test() -> NoReturn:
+    """Check stability of any rational filter."""
+    raise NotImplementedError()
+
+
+def splitlev(r: ArrayLike, b: ArrayLike) -> ArrayLike:
+    """Implement the split levinson recursion.
+
+    Table 5.7, Page 274.
+    """
+    raise NotImplementedError()

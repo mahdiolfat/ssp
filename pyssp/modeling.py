@@ -142,7 +142,7 @@ def covm(x: ArrayLike, p: int)-> tuple[ArrayLike, float]:
     X = convm(_x, p + 1)
     Xq = X[p - 1:N - 1, :p].copy()
     Xsol = np.linalg.lstsq(-Xq, X[p:N, 0], rcond=None)[0]
-    logger.warning(f"{Xsol=}")
+    logger.info(f"{Xsol=}")
     a = np.hstack(([1], Xsol))
     err = np.abs(X[p:N,0] @ X[p:N,] @ a)
     return a, err.ravel()[0]
