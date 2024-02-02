@@ -1,0 +1,5 @@
+-r requirements-basic.txt
+ruff
+pytest
+pytest-cov
+mypy

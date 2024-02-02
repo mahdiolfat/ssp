@@ -1,0 +1,3 @@
+-r requirements-basic
+matplotlib
+jupyterlab
