@@ -61,3 +61,8 @@ def nywe(x: ArrayLike, p: int, q: int) -> NoReturn:
 def ndeterministic(x: ArrayLike, p: int, q: int) -> NoReturn:
     """Normal Determenistic Systems of Equations."""
     raise NotImplementedError()
+
+
+def back_substitution(x: list[float], p: int) -> NoReturn:
+    """Convinient recursion for an all-pole model."""
+    raise NotImplementedError()
