@@ -3,7 +3,7 @@
 
 import numpy as np
 
-from pyssp import state
+from ssp import state
 
 
 def test_convm():

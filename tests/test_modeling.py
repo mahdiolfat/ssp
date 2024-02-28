@@ -4,7 +4,7 @@ import logging
 
 import numpy as np
 import scipy.signal as signal
-from pyssp import modeling, system
+from ssp import modeling, system
 
 
 logger = logging.getLogger(__name__)

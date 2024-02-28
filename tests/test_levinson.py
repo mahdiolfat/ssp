@@ -3,7 +3,7 @@
 import logging
 
 import numpy as np
-from pyssp import levinson
+from ssp import levinson
 
 
 logger = logging.getLogger(__name__)

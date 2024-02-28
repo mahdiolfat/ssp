@@ -3,7 +3,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "pyssp"
+name = "ssp"
 version = "0.0.1"
 readme = "README.md"
 license = "LICENSE.txt"
@@ -13,11 +13,11 @@ pythonpath = "."
 log_cli = true
 addopts = [
     "--import-mode=importlib",
-    "--cov=pyssp"
+    "--cov=ssp"
 ]
 
 [tool.ruff]
-include = ["pyssp/**"]
+include = ["ssp/**"]
 
 line-length = 100
 indent-width = 4
@@ -50,11 +50,11 @@ skip-magic-trailing-comma = false
 line-ending = "auto"
 
 [tool.mypy]
-mypy_path = "pyssp"
+mypy_path = "ssp"
 ignore_missing_imports = true
 disallow_incomplete_defs = true
 disallow_untyped_calls = true
 disallow_untyped_defs = true
 disallow_untyped_decorators = true
 plugins = "numpy.typing.mypy_plugin"
-files = ["pyssp/*.py"]
+files = ["ssp/*.py"]

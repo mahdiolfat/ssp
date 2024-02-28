@@ -1,7 +1,7 @@
 """"""
 
 import numpy as np
-from pyssp import optimal
+from ssp import optimal
 
 
 def test_kalman():
