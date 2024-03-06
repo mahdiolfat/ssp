@@ -1,6 +1,7 @@
 """Power spectrum and Frequency Estimators. Chapter 8."""
 
 from typing import NoReturn
+import logging
 
 import numpy as np
 from numpy.typing import ArrayLike
@@ -9,7 +10,10 @@ from .modeling import acm
 from .state import covar
 
 
-def periodogram(x: ArrayLike, n1: int=0, n2: None | int=None, nfft: None | int=1024) -> np.ndarray:
+logger = logging.getLogger(__name__)
+
+
+def periodogram(x: ArrayLike, p=4, M=64, n1: int=0, n2: None | int=None, nfft: None | int=1024) -> np.ndarray:
     """Periodogram, non-paramteric spectrum estimator.
 
     Ergodic in signal length converging to the true power spectrum.
@@ -158,7 +162,7 @@ def modal(x: ArrayLike, p: int, q: int) -> NoReturn:
     raise NotImplementedError()
 
 
-def phd(x: ArrayLike, p: int) -> tuple[np.ndarray, float]:
+def phd(x: ArrayLike, p: int, M: int) -> tuple[np.ndarray, float]:
     """Pisarenko Harmonic Decomposition frequency estimator.
 
     A noise subspace method.
@@ -173,6 +177,7 @@ def phd(x: ArrayLike, p: int) -> tuple[np.ndarray, float]:
     sigma = ddiag[index]
     vmin = v[:, index]
 
+    logger.warning(f'{v.shape=}')
     return vmin, sigma
 
 
@@ -192,13 +197,14 @@ def music(x: ArrayLike, p: int, M: int) -> ArrayLike:
     ddiag = np.diag(d)
     i = np.argsort(ddiag)
     # y = ddiag[i]
-    Px = np.zeros(1, dtype=float)
-
     nfft = max(len(_x) + 1, 1024)
+    Px = np.zeros(nfft, dtype=complex)
+
     for j in range(M - p):
         Px = Px + np.abs(np.fft.fft(v[:, i[j]], nfft))
 
     Px = -20 * np.log10(Px)
+    logger.debug(f'{Px.shape=}')
 
     return Px
 
@@ -213,7 +219,7 @@ def ev(x: ArrayLike, p: int, M: int) -> np.ndarray:
     if p + 1 > M:
         raise ValueError('Specified signal size is too small')
 
-    _x = np.array(x)
+    _x = np.array(x, dtype=complex)
     R = covar(_x, M)
     d, v = np.linalg.eig(R)
     # ddiag = np.diag(d)
@@ -292,10 +298,45 @@ def ar_pc(x: ArrayLike, p: int, M: int) -> NoReturn:
     raise NotImplementedError()
 
 
-def overlay(N: int, omega: int, A: ArrayLike, sigma: int, num: int) -> NoReturn:
+ALG_MAPPING = {
+    "periodogram": periodogram,
+    "phd": phd,
+    "music": music,
+    "min_norm": min_norm,
+    "eigenvector": ev,
+}
+
+
+def overlay(N: int, omega: ArrayLike, A: ArrayLike, sigma: float, num: int, alg: str = "periodogram") -> np.ndarray:
     """Periodogram overlays: using an ensemble of realizations.
 
     Summary of this function.
     Arguements: (N, omega, A, sigma, num)
     """
-    raise NotImplementedError()
+
+    nfft = 1024
+    # random signal process
+    rng1 = np.random.default_rng()
+    # noise process
+    rng2 = np.random.default_rng()
+
+    _omega = np.array(omega, ndmin=1, dtype=np.complex128)
+    _A = np.array(A, ndmin=1, dtype=np.complex128)
+    Px = np.zeros((nfft, N), dtype=np.complex128)
+    jj = np.array(omega, ndmin=1, dtype=np.complex128).size
+    n = np.arange(N)
+
+    jj = len(_omega)
+    for i in range(num):
+        x = sigma * rng1.normal()
+        for j in range(jj):
+            phi = 2 * np.pi * rng2.uniform()
+            x = x + _A[j] * np.sin(_omega[j] * n + phi)
+
+        #Px[:, i] = ALG_MAPPING[alg](x, p=4, M=64)
+        logger.warning(f'{x.shape=}')
+        res = periodogram(x, p=4, M=64)
+        logger.warning(f'{res.shape=}')
+        Px[:, i] = res[1, :]
+
+    return Px

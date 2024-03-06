@@ -32,7 +32,7 @@ def covar(x: ArrayLike, p: int) -> np.ndarray:
 
     p x p hermitian toeplitz matrix of sample covariances
     """
-    _x = np.array(x)
+    _x = np.array(x, dtype=complex)
     m = len(_x)
     # remove the mean
     x0 = _x - np.mean(_x)

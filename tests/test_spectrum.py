@@ -3,7 +3,13 @@ Example 8.6.2: 8.31
 Frequency Estimators: Example 8.6.5. Page 468.
 """
 
+import logging
+
 from typing import NoReturn
+from ssp import spectrum
+
+
+logger = logging.getLogger(__name__)
 
 
 def test_phd() -> NoReturn:
@@ -28,3 +34,8 @@ def test_mv_pc() -> NoReturn:
 
 def test_ar_pc() -> NoReturn:
     raise NotImplementedError
+
+def test_overlay() -> None:
+    res = spectrum.overlay(64, [0.2, 0.9], [1, 2], 0.5, 10)
+
+    assert(res.shape == (1024, 64))
