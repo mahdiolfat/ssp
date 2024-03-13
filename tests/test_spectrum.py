@@ -15,9 +15,9 @@ logger = logging.getLogger(__name__)
 
 def test_phd() -> None:
     # two complex exponentials in white noise have the following autocorrelation sequence
-    rx = np.array([6, 1.92705 + 4.58522j, -3.342705 + 3.49541j], dtype=complex)
+    rx = np.array([6, 1.92705 + 4.58522j, -3.42705 + 3.49541j], dtype=complex)
     logger.warning(f'{rx=}')
-    
+
 
 #def test_music() -> NoReturn:
     #raise NotImplementedError
