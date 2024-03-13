@@ -12,7 +12,7 @@ def convm(x: ArrayLike, p: int) -> np.ndarray:
 
     (N + p - 1) by p non-symmetric Toeplitz matrix
     """
-    _x = np.array(x).ravel()
+    _x = np.array(x, dtype=complex).ravel()
     if p < 1:
         raise ValueError(f"{p=} must be greater or equal to 1.")
 
@@ -21,7 +21,7 @@ def convm(x: ArrayLike, p: int) -> np.ndarray:
     # needed for the signal information-preserving frequency spectrum
     xcol = (_x.copy()).reshape(-1, 1)
     xpad = np.concatenate((np.zeros((p - 1, 1)), xcol, np.zeros((p - 1, 1))))
-    X = np.empty([len(_x) + p - 1, p])
+    X = np.empty([len(_x) + p - 1, p], dtype=complex)
     for i in range(p):
         X[:, i] = xpad[p - i - 1:N - i, 0]
     return X

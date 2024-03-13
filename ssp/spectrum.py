@@ -13,7 +13,7 @@ from .state import covar
 logger = logging.getLogger(__name__)
 
 
-def periodogram(x: ArrayLike, p=4, M=64, n1: int=0, n2: None | int=None, nfft: None | int=1024) -> np.ndarray:
+def periodogram(x: ArrayLike, n1: int=0, n2: None | int=None, nfft: None | int=1024) -> np.ndarray:
     """Periodogram, non-paramteric spectrum estimator.
 
     Ergodic in signal length converging to the true power spectrum.
@@ -162,7 +162,7 @@ def modal(x: ArrayLike, p: int, q: int) -> NoReturn:
     raise NotImplementedError()
 
 
-def phd(x: ArrayLike, p: int, M: int) -> tuple[np.ndarray, float]:
+def phd(x: ArrayLike, p: int) -> tuple[np.ndarray, float]:
     """Pisarenko Harmonic Decomposition frequency estimator.
 
     A noise subspace method.
@@ -171,13 +171,15 @@ def phd(x: ArrayLike, p: int, M: int) -> tuple[np.ndarray, float]:
     """
     _x = np.array(x)
     R = covar(_x, p + 1)
+    logger.warning(f'{R=}')
     d, v = np.linalg.eig(R)
     ddiag = np.diag(d)
+    logger.warning(f'{ddiag=}')
     index = np.argmin(ddiag)
     sigma = ddiag[index]
     vmin = v[:, index]
+    logger.warning(f'{v=}')
 
-    logger.warning(f'{v.shape=}')
     return vmin, sigma
 
 
@@ -298,15 +300,6 @@ def ar_pc(x: ArrayLike, p: int, M: int) -> NoReturn:
     raise NotImplementedError()
 
 
-ALG_MAPPING = {
-    "periodogram": periodogram,
-    "phd": phd,
-    "music": music,
-    "min_norm": min_norm,
-    "eigenvector": ev,
-}
-
-
 def overlay(N: int, omega: ArrayLike, A: ArrayLike, sigma: float, num: int, alg: str = "periodogram") -> np.ndarray:
     """Periodogram overlays: using an ensemble of realizations.
 
@@ -328,15 +321,11 @@ def overlay(N: int, omega: ArrayLike, A: ArrayLike, sigma: float, num: int, alg:
 
     jj = len(_omega)
     for i in range(num):
-        x = sigma * rng1.normal()
+        x = sigma * rng1.normal(N)
         for j in range(jj):
             phi = 2 * np.pi * rng2.uniform()
             x = x + _A[j] * np.sin(_omega[j] * n + phi)
 
-        #Px[:, i] = ALG_MAPPING[alg](x, p=4, M=64)
-        logger.warning(f'{x.shape=}')
-        res = periodogram(x, p=4, M=64)
-        logger.warning(f'{res.shape=}')
-        Px[:, i] = res[1, :]
+        Px[:, i] = periodogram(x)
 
     return Px
