@@ -3,14 +3,14 @@
 import logging
 
 import numpy as np
-from ssp import levinson
 
+from ssp import levinson
 
 logger = logging.getLogger(__name__)
 
 
 def test_glev():
-    '''Example 5.3.1, Page 266'''
+    """Example 5.3.1, Page 266."""
     r = [4, 2, 1]
     b = [9, 6, 12]
 
@@ -23,7 +23,7 @@ def test_glev():
 
 
 def test_gtor() -> None:
-    '''Based on example 5.2.6'''
+    """Based on example 5.2.6."""
     expected_rx = np.array([2, -1, -1/4, 1/8])
 
     gamma = [1/2, 1/2, 1/2]
@@ -33,7 +33,7 @@ def test_gtor() -> None:
 
 
 def test_atog() -> None:
-
+    """The m-file for the step-down recursion."""
     a = [1, 0.5, -0.1, -0.5]
     expected_g = np.array([0.5, 0.2, -0.5])
 
@@ -45,6 +45,11 @@ def test_atog() -> None:
 
 
 def test_rtog() -> None:
+    """Companion m-file.
+
+    Performs mapping from a sequence of
+    autocorrelations r to the reflection coefficient g.
+    """
     rx = [2, -1, -1/4, 1/8]
     expected_g = np.array([0.5, 0.5, 0.5])
 
@@ -56,6 +61,7 @@ def test_rtog() -> None:
 
 
 def test_ator() -> None:
+    """Finds the autocorrelation sequence from a set of filter coefficients."""
     a = [1, 1, 7/8, 1/2]
     epsilon = 2 * (3 / 4)**3
     b = epsilon**2
@@ -69,6 +75,7 @@ def test_ator() -> None:
 
 
 def test_gtoa() -> None:
+    """The step-up recursion."""
     gamma = [0.5, 0.2, -0.5]
     expected_a = np.array([1, 0.5, -0.1, -0.5])
 
@@ -79,6 +86,7 @@ def test_gtoa() -> None:
     assert np.allclose(a, expected_a)
 
 def test_rtoa() -> None:
+    """m-file for the Levinson-Durbin recursion."""
     rx = np.array([2, -1, -1/4, 1/8])
     expected_a = [1, 1, 7/8, 1/2]
     expected_eps = 2 * (3 / 4)**3

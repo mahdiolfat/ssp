@@ -7,6 +7,7 @@ from ssp import state
 
 
 def test_convm():
+    """Set up a convoluston matrix."""
     x = np.array([1, 2, 3])
     p = 4
 
@@ -20,6 +21,7 @@ def test_convm():
 
 
 def test_covar():
+    """Form a covariance matrix."""
     x = np.array([1, 2, 3])
     p = 4
 
