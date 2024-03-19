@@ -3,14 +3,15 @@
 import logging
 
 import numpy as np
-import scipy.signal as signal
-from ssp import modeling, system
+from scipy import signal
 
+from ssp import modeling, system
 
 logger = logging.getLogger(__name__)
 
 
 def test_pade() -> None:
+    """Pade Approximation."""
     x = [1, 1.5, 0.75, 0.1875, 0.0938]
     expected_a = [1, -1.5, 1.5]
     expected_b = [1]
@@ -39,6 +40,7 @@ def test_pade() -> None:
 
 
 def test_prony():
+    """Prony method."""
     N = 21
     T = 2 * (N - 1) + 1
     xn = np.ones(T)
@@ -49,6 +51,7 @@ def test_prony():
 
 
 def test_shanks():
+    """Shank's method."""
     N = 21
     T = 10 * (N - 1) + 1
     xn = np.ones(T)
@@ -66,6 +69,7 @@ def test_shanks():
 
 
 def test_spike():
+    """m-file to find the least squares inverse filter."""
     gn = np.array([-0.2, 0, 1])
     h, err = modeling.spike(gn, 4, 11)
     d = np.convolve(h, gn)
@@ -74,10 +78,12 @@ def test_spike():
     logger.info(f"{d=}, {np.argmax(d)=}")
 
 
-def test_ipf(): ...
+def test_ipf():
+    """Iterative prefiltering."""
 
 
 def test_acm():
+    """m-file for the autocorrelation method."""
     x = np.ones(20)
     x[1::2] = x[1::2] * -1
     logger.info(x)
@@ -88,6 +94,7 @@ def test_acm():
 
 
 def test_covm():
+    """Covariance method."""
     x = np.ones(20)
     x[1::2] = x[1::2] * -1
     logger.info(x)
@@ -98,7 +105,8 @@ def test_covm():
 
 
 def test_durbin():
-    N = 64
+    """Durbin's method."""
+    #N = 64
     ap = [1, 0.7348, 1.882, 0.7057, 0.8851]
 
     zeros, poles, _ = signal.tf2zpk([1], ap)

@@ -17,7 +17,7 @@ addopts = [
 ]
 
 [tool.ruff]
-include = ["ssp/**"]
+include = ["ssp/**", "tests/**"]
 
 line-length = 100
 indent-width = 4

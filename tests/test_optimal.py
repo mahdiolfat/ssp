@@ -1,10 +1,12 @@
-""""""
+"""Test optimal."""
 
 import numpy as np
+
 from ssp import optimal
 
 
 def test_kalman():
+    """Discrete Kalman filter."""
     av = 1
     aw = 0.36
     A = 0.8
